@@ -18,12 +18,12 @@
   <body ng-controller="bestofController">
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <span class="navbar-brand center">CIS550 HW2</span>
+      <span class="navbar-brand center">Disaster Demographics</span>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
           <a class="nav-item nav-link" href="/">Dashboard</a>
-          <a class="nav-item nav-link" href="/recommendations">Recommendations</a>
-          <a class="nav-item nav-link active" href="/bestof">Best Of</a>
+          <a class="nav-item nav-link" href="/recommendations">County</a>
+          <a class="nav-item nav-link active" href="/bestof">Census</a>
           <a class="nav-item nav-link" href="/posters">Posters</a>
           <a class="nav-item nav-link" href="/reference">Reference</a>
         </div>
@@ -33,28 +33,26 @@
     <!-- Sample Content. You can either use this or make your own -->
     <div class="container bestof-container">
       <div class="jumbotron">
-        <div class="h5">Best Of</div>
+        <div class="h5">Census</div>
 
         <div class="years-container">
           <div class="dropdown-container">
-            <select class="dropdown" id="decadesDropdown" ng-model="selectedDecade" ng-options="d.decade for d in decades"></select>
+            <select class="dropdown" id="decadesDropdown" ng-model="selectedDecade" ng-options="d for d in decades"></select>
           </div>
           <button class="submit-btn" id="decadesSubmitBtn" ng-click="submitDecade()">Submit</button>
         </div>
       </div>
       <div class="jumbotron">
+                <div class="h5">Most Frequent Storm Event Ranking by Race</div>
         <div class="movies-container">
           <div class="movie">
-            <div class="header"><strong>Genre</strong></div>
-            <div class="header"><strong>Title</strong></div>
-            <div class="header"><strong>Vote Count</strong></div>
-            <div class="header"><strong>Release Year</strong></div>
+            <div class="header"><strong>Event Type</strong></div>
+            <div class="header"><strong>Number of Counties</strong></div>
+
           </div>
           <div class="movie" id="results" ng-repeat="movie in bestofMovies">
-            <div class="genre">{{movie.genre}}</div>
-            <div class="title">{{movie.title}}</div>
-            <div class="votes">{{movie.vote_count}}</div>
-            <div class="year">{{movie.release_year}}</div>
+            <div class="genre">{{movie[0]}}</div>
+            <div class="votes">{{movie[1]}}</div>
           </div>
         </div>
       </div>

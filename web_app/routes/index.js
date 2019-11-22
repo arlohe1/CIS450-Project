@@ -127,8 +127,9 @@ router.get('/genres/', function(req, res) {
   //var connection = pool.getConnection();
   console.log("Inside genres route");
   var query = `
-        SELECT * 
+        SELECT event_id 
         FROM Disaster
+        WHERE ROWNUM <= 5
         ORDER BY damage_property DESC`;
   console.log("after query variable");
   connection.execute(query, function(err, rows, fields) {
@@ -152,17 +153,41 @@ router.get('/genres/', function(req, res) {
 /* ----- Q3 (Best Of Decades) ----- */
 
 router.get('/decades', function(req, res) {
+  // var query = `
+  //       SELECT cz_name_cleaned 
+  //       FROM Disaster
+  //       WHERE ROWNUM <= 5
+  //       ORDER BY damage_property DESC
+  // `;
+  // connection.execute(query, function(err, rows, fields) {
+  //   if (err) console.log(err);
+  //   else {
+  //     console.log(rows.rows);
+  //     res.json(rows.rows);
+  //   }
+  // });
+  var rows = ["white", "black", "hispanic", "asian", "native", "pacific"];
+res.json(rows)
+
+});
+
+router.get('/decades/:d', function(req, res) {
+  var inputRace = req.params.d;
+    console.log(inputRace);
   var query = `
-    SELECT * 
-FROM Disaster
-ORDER BY damage_property DESC
-LIMIT 10;
-  `;
-  connection.query(query, function(err, rows, fields) {
+    SELECT d.event_type, COUNT(*) AS num_counties
+FROM disaster d
+JOIN county c
+ON d.state_cleaned = c.state_cleaned AND d.cz_name_cleaned = c.name_cleaned
+WHERE percent_${inputRace} > 50
+GROUP BY d.event_type
+ORDER BY num_counties DESC`;
+console.log(query);
+  connection.execute(query, function(err, rows, fields) {
     if (err) console.log(err);
     else {
       console.log(rows);
-      res.json(rows);
+      res.json(rows.rows);
     }
   });
 });

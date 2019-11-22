@@ -17,12 +17,12 @@
   <body ng-controller="dashboardController">
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <span class="navbar-brand center">CIS550 HW2</span>
+      <span class="navbar-brand center">Disaster Demographics</span>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
           <a class="nav-item nav-link active" href="/">Dashboard</a>
-          <a class="nav-item nav-link" href="/recommendations">Recommendations</a>
-          <a class="nav-item nav-link" href="/bestof">Best Of</a>
+          <a class="nav-item nav-link" href="/recommendations">County</a>
+          <a class="nav-item nav-link" href="/bestof">Census</a>
           <a class="nav-item nav-link" href="/posters">Posters</a>
           <a class="nav-item nav-link" href="/reference">Reference</a>
         </div>
@@ -33,11 +33,11 @@
     <br>
     <div class="container movie-container">
       <div class="jumbotron">
-        <div class="h5">Top Movies</div>
+        <div class="h5">Summary Statistics</div>
         <!-- Display the Genres -->
         <div class="genres-container">
           <div class="genre" ng-repeat="g in genres" ng-click="showMovies(g)" id="{{'button-' + g.genre}}">
-            {{g.genre}}
+            {{g}}
           </div>
         </div>
       </div>

@@ -35,4 +35,24 @@ app.controller('recommendationsController', function($scope, $http) {
 // Controller for the Best Of Page
 app.controller('bestofController', function($scope, $http) {
   // TODO: Q3
+        $http({
+    url: '/decades',
+    method: 'GET'
+  }).then(res => {
+    console.log("Decades: ", res.data);
+    $scope.decades = res.data;
+  }, err => {
+    console.log("Decades ERROR: ", err);
+  });
+    $scope.submitDecade = function() {
+  	$http({
+    url: '/decades/'+$scope.selectedDecade,
+    method: 'GET'
+  }).then(res => {
+    console.log("Top Voted Based In " +$scope.selectedDecade, res.data);
+    $scope.bestofMovies = res.data;
+  }, err => {
+    console.log("Top Voted ERROR: ", err);
+  });
+  }
 });

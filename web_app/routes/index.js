@@ -11,13 +11,14 @@ var path = require('path');
 // var connection = mysql.createPool(config);
 const oracledb = require('oracledb');
 
-var pool = oracledb.createPool({
-  user     : "hackerman",
-  password : "beepboop",
-  connectString : "cis450proj.c9gzklizhtyu.us-east-1.rds.amazonaws.com:1521/cis450db"
-});
+// var connection;
+// var pool = oracledb.createPool({
+//   user     : "hackerman",
+//   password : "beepboop",
+//   connectString : "cis450proj.c9gzklizhtyu.us-east-1.rds.amazonaws.com:1521/cis450db"
+// };
 
-var connection = pool.getConnection();
+
 // function(err, connection)
 //   {
 //     if (err) { console.error(err); return; }
@@ -38,16 +39,24 @@ var connection = pool.getConnection();
 //       });
 //   }
 
-// async function run() {
-//   let connection;
+var connection;
+async function run() {
 
-//   try {
-//     connection = await oracledb.getConnection({
-//   user     : "hackerman",
-//   password : "beepboop",
-//   connectString : "cis450proj.c9gzklizhtyu.us-east-1.rds.amazonaws.com/cis450db"
-// },
-// connExecute);
+  try {
+    pool = await oracledb.createPool({
+      user     : "hackerman",
+      password : "beepboop",
+      connectString : "cis450proj.c9gzklizhtyu.us-east-1.rds.amazonaws.com/cis450db"
+  });
+
+  connection = await pool.getConnection();
+
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+run();
 
 //     const result = await connection.execute(
 //       `
@@ -115,12 +124,12 @@ router.get('<PATH>', function(req, res) {
 
 /* ----- Q1 (Dashboard) ----- */
 router.get('/genres/', function(req, res) {
+  //var connection = pool.getConnection();
   console.log("Inside genres route");
   var query = `
         SELECT * 
         FROM Disaster
-        ORDER BY damage_property DESC
-        LIMIT 10;`;
+        ORDER BY damage_property DESC`;
   console.log("after query variable");
   connection.execute(query, function(err, rows, fields) {
     console.log("Reached connection query");

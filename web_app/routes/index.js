@@ -11,27 +11,32 @@ var path = require('path');
 // var connection = mysql.createPool(config);
 const oracledb = require('oracledb');
 
-connection = oracledb.getConnection({
+var pool = oracledb.createPool({
   user     : "hackerman",
   password : "beepboop",
   connectString : "cis450proj.c9gzklizhtyu.us-east-1.rds.amazonaws.com:1521/cis450db"
-},
-function(err, connection)
-  {
-    if (err) { console.error(err); return; }
-    connection.execute(
-      "SELECT event_id, state_cleaned, cz_name_cleaned, damage_property "
-    + "FROM Disaster "
-    + "WHERE damage_property > 1000000 "
-    + "AND state='ohio'"
-    + "ORDER BY damage_property",
-      function(err, result)
-      {
-        if (err) { console.error(err); return; }
-        console.log(result.rows);
-      });
-  }
-);
+});
+
+var connection = pool.getConnection();
+// function(err, connection)
+//   {
+//     if (err) { console.error(err); return; }
+//     connection.query(
+//       "SELECT event_id, state_cleaned, cz_name_cleaned, damage_property "
+//     + "FROM Disaster "
+//     + "WHERE damage_property > 1000000 "
+//     + "AND state='ohio'"
+//     + "ORDER BY damage_property",
+//       function(err, rows, fields)
+//       {
+//         if (err) { console.error(err); return; }
+//         else {
+//                   console.log(rows);
+//                   res.json(rows);
+//         }
+
+//       });
+//   }
 
 // async function run() {
 //   let connection;
@@ -117,7 +122,7 @@ router.get('/genres/', function(req, res) {
         ORDER BY damage_property DESC
         LIMIT 10;`;
   console.log("after query variable");
-  connection.query(query, function(err, rows, fields) {
+  connection.execute(query, function(err, rows, fields) {
     console.log("Reached connection query");
     if (err) {
       console.log("Reached here: ", err);

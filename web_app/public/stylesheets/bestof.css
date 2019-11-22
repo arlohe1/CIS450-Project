@@ -1,0 +1,74 @@
+.bestof-container {
+  margin-top: 2rem;
+}
+
+.years-container {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.years-container .dropdown-container {
+  height: 30px;
+  overflow: hidden;
+  width: 140px;
+  background-color: #fff;
+  border-radius: 20px;
+  cursor: pointer;
+  outline: none;
+  border: 1px solid #bbb;
+}
+
+.years-container .dropdown {
+  background: transparent;
+  border: none;
+  font-size: 14px;
+  height: 30px;
+  padding: 5px;
+  cursor: pointer;
+  width: 268px;
+  outline: none;
+}
+
+.years-container .submit-btn {
+  margin-left: 10px;
+  /* width: 250px; */
+  height: 30px;
+  border: none;
+  padding: 2px 16px;
+  box-sizing: border-box;
+  border-radius: 20px;
+  outline: none;
+  background: #bd54a4;
+  color: #fff;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.years-container .submit-btn:hover {
+  background: #c561ae;
+}
+
+.years-container .submit-btn:active {
+  background: #d86bbe;
+}
+
+.movies-container {
+  display: flex;
+  flex-flow: column wrap;
+  margin-top: 10px;
+}
+
+.movies-container .movie {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  height: 40px;
+  padding: 0 10px;
+}
+
+.movie .header, .movie .title, .movie .genre, .movie .votes, .movie .year {
+  flex: 1 0 25%;
+}

@@ -1,0 +1,117 @@
+.body {
+  width: 100vw;
+}
+
+.posters-container {
+  margin-top: 2rem;
+  max-width: 80%;
+}
+
+.jumbotron {
+  background-color: #f3f4f705;
+}
+
+.movies-container {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.movies-container .movie {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  height: 410px;
+  padding: 0 10px;
+  flex: 0 0 25%;
+  width: 260px;
+  margin-bottom: 20px;
+  font-family: Helvetica Neue, sans-serif;
+  color: #ddd;
+}
+
+.movie .title {
+  flex: 1;
+  width: 100%;
+  text-align: center;
+  padding-top: 20px;
+  font-weight: bold;
+}
+
+.movie .link {
+  overflow: hidden;
+  height: 350px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  transition: transform 0.15s ease-in;
+  transform: scale(1);
+  position: relative;
+}
+
+.movie .link .poster {
+  height: 100%;
+  width: 82%;
+}
+
+.movie a.link:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+.movie .link .overlay {
+  position: absolute;
+  height: 100%;
+  width: 82%;
+  background-color: #222222c7;
+  color: #ddd;
+  padding: 20px 10px;
+  display: flex;
+  flex-flow: column nowrap;
+  animation: zoomin 0.2s ease-in both;
+}
+
+@keyframes zoomin {
+  0% {
+    display: none;
+    opacity: 0;
+  }
+
+  100% {
+    display: flex;
+    opacity: 1;
+  }
+}
+
+.overlay .plot {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  text-align: justify;
+}
+
+.overlay .extras {
+  display: flex;
+  flex-flow: column nowrap;
+  margin-top: auto;
+}
+
+.overlay .extras .extra {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  height: 30px;
+}
+
+.extra .field {
+  flex: 1 0 30%;
+}
+
+.extra .separater {}
+
+.extra .value {
+  flex: 1 0 60%;
+  text-align: right;
+}

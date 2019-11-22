@@ -1,0 +1,40 @@
+.genres-container {
+  /* margin: 10px 0; */
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  /* border-bottom: 1px solid #ddd; */
+}
+
+.genres-container .genre {
+  flex: 1 0 20%;
+  margin: 5px 0;
+  padding: 10px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.genres-container .genre:hover {
+  background-color: #ddd;
+}
+
+.movies-container {
+  display: flex;
+  flex-flow: column wrap;
+  /* margin-top: 10px; */
+}
+
+.movies-container .movie {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  height: 40px;
+}
+
+.movie .title, .movie .header-lg {
+  flex: 1 0 50%;
+}
+
+.movie .header, .movie .rating, .movie .votes {
+  flex: 1 0 25%;
+}

@@ -1,0 +1,16 @@
+module.exports = {
+  'ALL_GENRES': ['these', 'are', 'bad', 'inputs'],
+
+  'TOP_10': {
+    'Comedy': '[{"title":"Dilwale Dulhania Le Jayenge","rating":9.1,"vote_count":661,"genre":"Comedy","$$hashKey":"object:43"},{"title":"Cosy Dens","rating":8.6,"vote_count":23,"genre":"Comedy","$$hashKey":"object:44"},{"title":"Too Many Cooks","rating":8.5,"vote_count":24,"genre":"Comedy","$$hashKey":"object:45"},{"title":"Bill Hicks: Revelations","rating":8.5,"vote_count":21,"genre":"Comedy","$$hashKey":"object:46"},{"title":"Bo Burnham: Make Happy","rating":8.4,"vote_count":56,"genre":"Comedy","$$hashKey":"object:47"},{"title":"Life Is Beautiful","rating":8.3,"vote_count":3643,"genre":"Comedy","$$hashKey":"object:48"},{"title":"In a Heartbeat","rating":8.3,"vote_count":146,"genre":"Comedy","$$hashKey":"object:49"},{"title":"The Present","rating":8.3,"vote_count":52,"genre":"Comedy","$$hashKey":"object:50"},{"title":"Toto, Peppino, and the Hussy","rating":8.3,"vote_count":48,"genre":"Comedy","$$hashKey":"object:51"},{"title":"Louis C.K.: Chewed Up","rating":8.3,"vote_count":46,"genre":"Comedy","$$hashKey":"object:52"}]',
+
+    'Crime': '[{"title":"The Shawshank Redemption","rating":8.5,"vote_count":8358,"genre":"Crime","$$hashKey":"object:83"},{"title":"The Godfather","rating":8.5,"vote_count":6024,"genre":"Crime","$$hashKey":"object:84"},{"title":"Dear Zachary: A Letter to a Son About His Father","rating":8.4,"vote_count":146,"genre":"Crime","$$hashKey":"object:85"},{"title":"A Brighter Summer Day","rating":8.4,"vote_count":45,"genre":"Crime","$$hashKey":"object:86"},{"title":"Pixote","rating":8.4,"vote_count":24,"genre":"Crime","$$hashKey":"object:87"},{"title":"The Dark Knight","rating":8.3,"vote_count":12269,"genre":"Crime","$$hashKey":"object:88"},{"title":"Pulp Fiction","rating":8.3,"vote_count":8670,"genre":"Crime","$$hashKey":"object:89"},{"title":"The Godfather: Part II","rating":8.3,"vote_count":3418,"genre":"Crime","$$hashKey":"object:90"},{"title":"Once Upon a Time in America","rating":8.3,"vote_count":1104,"genre":"Crime","$$hashKey":"object:91"},{"title":"Leon: The Professional","rating":8.2,"vote_count":4293,"genre":"Crime","$$hashKey":"object:92"}]',
+
+    'Crime': '[{"title":"The Shawshank Redemption","rating":8.5,"vote_count":8358,"genre":"Crime","$$hashKey":"object:83"},{"title":"The Godfather","rating":8.5,"vote_count":6024,"genre":"Crime","$$hashKey":"object:84"},{"title":"Dear Zachary: A Letter to a Son About His Father","rating":8.4,"vote_count":146,"genre":"Crime","$$hashKey":"object:85"},{"title":"A Brighter Summer Day","rating":8.4,"vote_count":45,"genre":"Crime","$$hashKey":"object:86"},{"title":"Leon: The Professional","rating":8.2,"vote_count":4293,"genre":"Crime","$$hashKey":"object:92"}, {"title":"Pixote","rating":8.4,"vote_count":24,"genre":"Crime","$$hashKey":"object:87"},{"title":"The Dark Knight","rating":8.3,"vote_count":12269,"genre":"Crime","$$hashKey":"object:88"},{"title":"Pulp Fiction","rating":8.3,"vote_count":8670,"genre":"Crime","$$hashKey":"object:89"},{"title":"The Godfather: Part II","rating":8.3,"vote_count":3418,"genre":"Crime","$$hashKey":"object:90"},{"title":"Once Upon a Time in America","rating":8.3,"vote_count":1104,"genre":"Crime","$$hashKey":"object:91"}]',
+  },
+
+  'RECOMMEND': {
+    'Bubba Ho-tep': [9707, 499],
+  },
+
+}

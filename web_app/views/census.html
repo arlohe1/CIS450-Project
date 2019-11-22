@@ -11,7 +11,7 @@
     <script src="javascripts/app.js" type="text/javascript"></script>
     <!-- Custom styles for this template-->
     <link href="/stylesheets/common.css" rel="stylesheet">
-    <link href="/stylesheets/dashboard.css" rel="stylesheet">
+    <link href="/stylesheets/census.css" rel="stylesheet">
   </head>
 
   <body ng-controller="dashboardController">
@@ -20,10 +20,10 @@
       <span class="navbar-brand center">Disaster Demographics</span>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-item nav-link active" href="/">Dashboard</a>
+          <a class="nav-item nav-link" href="/">Dashboard</a>
           <a class="nav-item nav-link" href="/search">Search</a>
           <a class="nav-item nav-link" href="/county">County</a>
-          <a class="nav-item nav-link" href="/census">Census</a>
+          <a class="nav-item nav-link active" href="/census">Census</a>
         </div>
       </div>
     </nav>
@@ -32,11 +32,11 @@
     <br>
     <div class="container movie-container">
       <div class="jumbotron">
-        <div class="h5">Summary Statistics</div>
+        <div class="h5">Top Movies</div>
         <!-- Display the Genres -->
         <div class="genres-container">
           <div class="genre" ng-repeat="g in genres" ng-click="showMovies(g)" id="{{'button-' + g.genre}}">
-            {{g}}
+            {{g.genre}}
           </div>
         </div>
       </div>

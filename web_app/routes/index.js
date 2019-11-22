@@ -60,7 +60,7 @@ run();
 
 //     const result = await connection.execute(
 //       `
-//     SELECT * 
+//     SELECT *
 //       FROM Disaster
 //       ORDER BY damage_property DESC
 //       LIMIT 10;
@@ -88,18 +88,18 @@ router.get('/', function(req, res) {
 });
 
 /* ----- Q2 (Recommendations) ----- */
-router.get('/recommendations', function(req, res) {
-  res.sendFile(path.join(__dirname, '../', 'views', 'recommendations.html'));
+router.get('/search', function(req, res) {
+  res.sendFile(path.join(__dirname, '../', 'views', 'search.html'));
 });
 
 /* ----- Q3 (Best Of Decades) ----- */
-router.get('/bestof', function(req, res) {
-  res.sendFile(path.join(__dirname, '../', 'views', 'bestof.html'));
+router.get('/county', function(req, res) {
+  res.sendFile(path.join(__dirname, '../', 'views', 'county.html'));
 });
 
 /* ----- Bonus (Posters) ----- */
-router.get('/posters', function(req, res) {
-  res.sendFile(path.join(__dirname, '../', 'views', 'posters.html'));
+router.get('/census', function(req, res) {
+  res.sendFile(path.join(__dirname, '../', 'views', 'census.html'));
 });
 
 router.get('/reference', function(req, res) {
@@ -123,11 +123,11 @@ router.get('<PATH>', function(req, res) {
 /* ------------------------------------------------ */
 
 /* ----- Q1 (Dashboard) ----- */
-router.get('/genres/', function(req, res) {
+router.get('/', function(req, res) {
   //var connection = pool.getConnection();
   console.log("Inside genres route");
   var query = `
-        SELECT event_id 
+        SELECT event_id
         FROM Disaster
         WHERE ROWNUM <= 5
         ORDER BY damage_property DESC`;
@@ -136,7 +136,7 @@ router.get('/genres/', function(req, res) {
     console.log("Reached connection query");
     if (err) {
       console.log("Reached here: ", err);
-    } 
+    }
     else {
       console.log(rows);
       res.json(rows);
@@ -154,7 +154,7 @@ router.get('/genres/', function(req, res) {
 
 router.get('/decades', function(req, res) {
   // var query = `
-  //       SELECT cz_name_cleaned 
+  //       SELECT cz_name_cleaned
   //       FROM Disaster
   //       WHERE ROWNUM <= 5
   //       ORDER BY damage_property DESC
@@ -171,7 +171,7 @@ res.json(rows)
 
 });
 
-router.get('/decades/:d', function(req, res) {
+router.get('/census/:d', function(req, res) {
   var inputRace = req.params.d;
     console.log(inputRace);
   var query = `

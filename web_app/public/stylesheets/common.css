@@ -13,6 +13,23 @@ body {
   margin: 20px auto;
 }
 
+.navbar-custom {
+    color: white;
+    background-color: #0D1114;
+}
+
+.nav-item {
+  color: white;
+}
+
+.nav-item:hover {
+  color: #989898;
+}
+
+.active {
+  color: #989898;
+}
+
 .jumbotron {
   background-color: #f3f4f7;
   padding: 2rem;
@@ -45,4 +62,10 @@ body {
 
 .back-btn:active {
   background: #d86bbe;
+}
+
+.h2 {
+  color: white;
+  margin-top: 20px;
+  text-align: center;
 }

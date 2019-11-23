@@ -122,10 +122,10 @@ router.get('<PATH>', function(req, res) {
 /* ----- Routers to handle data requests ----- */
 /* ------------------------------------------------ */
 
-/* ----- Q1 (Dashboard) ----- */
+/* ----- (Dashboard) ----- */
 router.get('/', function(req, res) {
   //var connection = pool.getConnection();
-  console.log("Inside genres route");
+  console.log("Inside dashboard route");
   var query = `
         SELECT event_id
         FROM Disaster
@@ -152,7 +152,7 @@ router.get('/', function(req, res) {
 
 /* ----- Q3 (Best Of Decades) ----- */
 
-router.get('/decades', function(req, res) {
+router.get('/census', function(req, res) {
   // var query = `
   //       SELECT cz_name_cleaned
   //       FROM Disaster
@@ -166,23 +166,26 @@ router.get('/decades', function(req, res) {
   //     res.json(rows.rows);
   //   }
   // });
-  var rows = ["white", "black", "hispanic", "asian", "native", "pacific"];
-res.json(rows)
 
+  //var rows = ["white", "black", "hispanic", "asian", "native", "pacific"];
+  //console.log(rows);
+  //res.json(rows);
 });
 
-router.get('/census/:d', function(req, res) {
-  var inputRace = req.params.d;
+router.get('/census/:r', function(req, res) {
+  var inputRace = req.params.r;
     console.log(inputRace);
   var query = `
     SELECT d.event_type, COUNT(*) AS num_counties
-FROM disaster d
-JOIN county c
-ON d.state_cleaned = c.state_cleaned AND d.cz_name_cleaned = c.name_cleaned
-WHERE percent_${inputRace} > 50
-GROUP BY d.event_type
-ORDER BY num_counties DESC`;
-console.log(query);
+    FROM disaster d
+    JOIN county c
+    ON d.state_cleaned = c.state_cleaned AND d.cz_name_cleaned = c.name_cleaned
+    WHERE percent_${inputRace} > 50
+    GROUP BY d.event_type
+    ORDER BY num_counties DESC`;
+
+  console.log(query);
+
   connection.execute(query, function(err, rows, fields) {
     if (err) console.log(err);
     else {

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CIS550 HW2: Dashboard</title>
+    <title>Disaster Demographics</title>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <script src="javascripts/app.js" type="text/javascript"></script>
@@ -14,7 +14,7 @@
     <link href="/stylesheets/census.css" rel="stylesheet">
   </head>
 
-  <body ng-controller="dashboardController">
+  <body ng-controller="censusController">
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <span class="navbar-brand center">Disaster Demographics</span>
@@ -30,33 +30,36 @@
 
     <!-- User Content -->
     <br>
-    <div class="container movie-container">
+   <div class="container">
       <div class="jumbotron">
-        <div class="h5">Top Movies</div>
-        <!-- Display the Genres -->
-        <div class="genres-container">
-          <div class="genre" ng-repeat="g in genres" ng-click="showMovies(g)" id="{{'button-' + g.genre}}">
-            {{g.genre}}
+        <!--<div class="h5">Races</div>-->
+        <!-- Display the Races -->
+        <div class="race-boxes">
+          <div class="race" ng-repeat="r in races" ng-click="showEvents(r)" id="{{'button-' + c}}">
+            {{r}}
+          </div>
+        </div>
           </div>
         </div>
       </div>
+
       <br>
       <div class="jumbotron">
-        <!-- Display top 10 movies when a genre is clicked -->
-        <div class="movies-container">
-          <div class="movie">
-            <div class="header-lg"><strong>Title</strong></div>
-            <div class="header"><strong>Rating</strong></div>
-            <div class="header"><strong>Vote Count</strong></div>
+        <div class="race-container">
+          <div class="left-half">
+          <div class="question">What events affected residents in counties predominant in this race?</div>
           </div>
-          <div class="movie" id="results" ng-repeat="m in movies">
-            <div class="title">{{m.title}}</div>
-            <div class="rating">{{m.rating}}</div>
-            <div class="votes">{{m.vote_count}}</div>
+          <div class="event-type">
+            <h5><strong>Event Type</strong></h5>
+            <div class="answers" ng-repeat="e in events">{{e[0]}}</div>
+          </div>
+          <div class="count-counties">
+            <h5><strong>Number of Counties</strong></h5>
+            <div class="answers" ng-repeat="e in events">{{e[1]}}</div>
           </div>
         </div>
       </div>
-    </div>
+
 
     <!-- Include these before the end of body tag in every HTML file -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>

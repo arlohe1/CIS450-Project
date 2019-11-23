@@ -78,7 +78,7 @@ app.controller('censusController', function($scope, $http) {
       url: '/census/'+$scope.r,
       method: 'GET'
   }).then(res => {
-    console.log("Number of events affecting group " +$scope.r, res.data);
+    console.log("Number of events affecting group " + $scope.r, res.data);
     $scope.events = res.data;
   }, err => {
     console.log("CENSUS ERROR: ", err);

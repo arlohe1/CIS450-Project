@@ -30,33 +30,34 @@
 
     <!-- User Content -->
     <br>
-    <div class="container movie-container">
-      <div class="jumbotron">
-        <div class="h5">Summary Statistics</div>
-        <!-- Display the Genres -->
-        <div class="genres-container">
-          <div class="genre" ng-repeat="g in genres" ng-click="showMovies(g)" id="{{'button-' + g.genre}}">
-            {{g}}
+      <div class="h2">Summary Statistics</div>
+        <div class="summary">
+          <div class="item-1">
+            first grid in the matrix
+          </div>
+          <div class="item-2">
+            second grid in the matrix
+          </div>
+          <div class="item-3">
+            third grid in the matrix
+          </div>
+          <div class="item-4">
+            fourth grid in the matrix
+          </div>
+          <div class="item-5">
+            fifth grid in the matrix
+          </div>
+          <div class="item-6">
+            sixth grid in the matrix
+          </div>
+          <div class="item-7">
+            seventh grid in the matrix
+          </div>
+          <div class="item-8">
+            eighth grid in the matrix
           </div>
         </div>
       </div>
-      <br>
-      <div class="jumbotron">
-        <!-- Display top 10 movies when a genre is clicked -->
-        <div class="movies-container">
-          <div class="movie">
-            <div class="header-lg"><strong>Title</strong></div>
-            <div class="header"><strong>Rating</strong></div>
-            <div class="header"><strong>Vote Count</strong></div>
-          </div>
-          <div class="movie" id="results" ng-repeat="m in movies">
-            <div class="title">{{m.title}}</div>
-            <div class="rating">{{m.rating}}</div>
-            <div class="votes">{{m.vote_count}}</div>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <!-- Include these before the end of body tag in every HTML file -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>

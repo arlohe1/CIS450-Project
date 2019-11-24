@@ -121,9 +121,8 @@ router.get('<PATH>', function(req, res) {
 /* ------------------------------------------------ */
 /* ----- Routers to handle data requests ----- */
 /* ------------------------------------------------ */
-
 /* ----- (Dashboard) ----- */
-router.get('/dashboard', function(req, res) {
+router.get('/dashboardSummary', function(req, res) {
   //var connection = pool.getConnection();
   console.log("Inside dashboard route");
   var query = `
@@ -143,7 +142,6 @@ router.get('/dashboard', function(req, res) {
     }
   });
 });
-
 
 /* ----- Q2 (Recommendations) ----- */
 
@@ -179,7 +177,9 @@ router.get('/dashboard', function(req, res) {
 
 router.get('/county/:countyName', function (req, res) {
   console.log("in index.js county")
+
   var county = req.params.countyName;
+  console.log(county);
 
   var query = `
   SELECT

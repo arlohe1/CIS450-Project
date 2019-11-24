@@ -45,11 +45,13 @@ County<!DOCTYPE html>
             <div class="header"><strong>Census data?</strong></div>
             <div class="header"><strong>Census data?</strong></div>
           </div>
-          <div class="county" id="results" ng-repeat="county in recommendedCounty">
-            <div class="title">{{county.title}}</div>
-            <div class="id">{{county.id}}</div>
-            <div class="rating">{{county.rating}}</div>
-            <div class="vote-count">{{county.vote_count}}</div>
+          <div class="county" id="results" ng-repeat="d in countyDesc">
+            <div class="title">{{d[0]}}</div>
+            <div class="id">{{d[1]}}</div>
+            <div class="rating">{{d[2]}}</div>
+            <div class="vote-count">{{d[3]}}</div>
+            <div class="vote-count">{{d[4]}}</div>
+            <div class="vote-count">{{d[5]}}</div>
           </div>
         </div>
       </div>

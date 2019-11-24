@@ -38,7 +38,7 @@ app.controller('countyController', function($scope, $http) {
       url: '/county/' + $scope.countyName,
       method: 'GET'
     }).then(res => {
-      console.log(data)
+      //console.log(data)
       console.log("DESC in county: ", res.data);
       $scope.countyDesc = res.data;
     }, err => {

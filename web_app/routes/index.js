@@ -165,13 +165,13 @@ router.get('/county/:countyName', function (req, res) {
   ON V.event_id = T.event_id
   ORDER BY T.state`;
   console.log(query);
-  connection.query(query, function (err, rows, fields) {
+  connection.execute(query, function (err, rows, fields) {
     if (err) console.log(err);
     else {
       console.log(rows);
-      console.log(query);
-      console.log(err);
-      console.log(fields);
+      //console.log(query);
+      //console.log(err);
+      //console.log(fields);
       res.json(rows.rows);
     }
   });

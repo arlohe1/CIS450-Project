@@ -36,7 +36,8 @@ app.controller('countyController', function($scope, $http) {
   $scope.submitIds = function() {
     $http({
       url: '/county/' + $scope.countyName,
-      method: 'GET'
+      method: 'GET',
+      responseType: 'text'
     }).then(res => {
       //console.log(data)
       console.log("DESC in county: ", res.data);

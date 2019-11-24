@@ -152,18 +152,39 @@ router.get('/', function(req, res) {
 
 /* -----County----- */
 // "movie" ("county") must be all lowercase and no punctuation or spaces
+// router.get('/county/:countyName', function (req, res) {
+//   console.log("in index.js county")
+//   var county = req.params.countyName;
+//   var query = `
+//   SELECT T.state, T.county, T.begin_date, T.end_date, P.episode_narrative, V.event_narrative
+//   FROM episodenarrative P JOIN
+//   (SELECT state, cz_name as county, begin_date, end_date, episode_id, event_id
+//   FROM disaster D
+//   WHERE D.cz_name_cleaned = '${county}') T
+//   ON P.episode_id = T.episode_id JOIN Eventnarrative V
+//   ON V.event_id = T.event_id
+//   ORDER BY T.state`;
+//   console.log(query);
+//   connection.execute(query, function (err, rows, fields) {
+//     if (err) console.log(err);
+//     else {
+//       console.log(rows);
+//       //console.log(query);
+//       //console.log(err);
+//       //console.log(fields);
+//       res.json(rows.rows);
+//     }
+//   });
+// });
+
 router.get('/county/:countyName', function (req, res) {
   console.log("in index.js county")
   var county = req.params.countyName;
   var query = `
-  SELECT T.state, T.county, T.begin_date, T.end_date, P.episode_narrative, V.event_narrative
-  FROM episodenarrative P JOIN
-  (SELECT state, cz_name as county, begin_date, end_date, episode_id, event_id
-  FROM disaster D
-  WHERE D.cz_name_cleaned = '${county}') T
-  ON P.episode_id = T.episode_id JOIN Eventnarrative V
-  ON V.event_id = T.event_id
-  ORDER BY T.state`;
+  SELECT state, cz_name, begin_date, end_date, injuries_direct, injuries_indirect, deaths_direct, deaths_indirect, damage_property, damage_crops
+  FROM disaster
+  WHERE cz_name_cleaned = '${county}'
+  ORDER BY state`;
   console.log(query);
   connection.execute(query, function (err, rows, fields) {
     if (err) console.log(err);

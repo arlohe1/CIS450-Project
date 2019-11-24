@@ -51,11 +51,11 @@
           <div class="question">What events affected residents in counties predominant in this race?</div>
           </div>
           <div class="event-type">
-            <h5><strong>Event Type</strong></h5>
-            <div class="answers" ng-repeat="e in events">{{e[0]}}</div>
+            <div class="header"><strong>Event Type</strong></div>
+            <div class="answers" style="text-transform:capitalize" ng-repeat="e in events">{{e[0]}}</div>
           </div>
           <div class="count-counties">
-            <h5><strong>Number of Counties</strong></h5>
+            <div class="header"><strong>Number of Counties</strong></div>
             <div class="answers" ng-repeat="e in events">{{e[1]}}</div>
           </div>
         </div>

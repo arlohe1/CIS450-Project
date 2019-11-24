@@ -83,7 +83,7 @@ run();
 /* ----- Routers to handle FILE requests ----- */
 /* ------------------------------------------- */
 
-router.get('/', function(req, res) {
+router.get('/dashboard', function(req, res) {
   res.sendFile(path.join(__dirname, '../', 'views', 'dashboard.html'));
 });
 
@@ -123,7 +123,7 @@ router.get('<PATH>', function(req, res) {
 /* ------------------------------------------------ */
 
 /* ----- (Dashboard) ----- */
-router.get('/', function(req, res) {
+router.get('/dashboard', function(req, res) {
   //var connection = pool.getConnection();
   console.log("Inside dashboard route");
   var query = `
@@ -180,12 +180,26 @@ router.get('/', function(req, res) {
 router.get('/county/:countyName', function (req, res) {
   console.log("in index.js county")
   var county = req.params.countyName;
+
   var query = `
-  SELECT state, cz_name, begin_date, end_date, injuries_direct, injuries_indirect, deaths_direct, deaths_indirect, damage_property, damage_crops
+  SELECT
+    state,
+    cz_name,
+    event_type,
+    to_char(cast(begin_date as date),'DD-MM-YYYY'),
+    to_char(cast(end_date as date),'DD-MM-YYYY')
+    injuries_direct,
+    injuries_indirect,
+    deaths_direct,
+    deaths_indirect,
+    damage_property,
+    damage_crops
   FROM disaster
   WHERE cz_name_cleaned = '${county}'
   ORDER BY state`;
+
   console.log(query);
+
   connection.execute(query, function (err, rows, fields) {
     if (err) console.log(err);
     else {

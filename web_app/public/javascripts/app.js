@@ -4,7 +4,7 @@ var app = angular.module('angularjsNodejsTutorial', []);
  app.controller('dashboardController', function($scope, $http) {
    console.log("In app controller");
      $http({
-      url: '/',
+      url: '/dashboard',
       method: 'GET'
     }).then(res => {
       console.log("DASHBOARD: ", res.data);

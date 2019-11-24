@@ -35,6 +35,14 @@
   font-size: 12px;
 }
 
+.filter-container .submit-btn:hover {
+  background: #c561ae;
+}
+
+.filter-container .submit-btn:active {
+  background: #d86bbe;
+}
+
 .events-container {
   width: 80%;
   margin: 0 auto;

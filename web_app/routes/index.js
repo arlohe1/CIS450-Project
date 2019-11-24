@@ -150,26 +150,31 @@ router.get('/', function(req, res) {
 
 
 
-/* ----- Q3 (Best Of Decades) ----- */
-
-router.get('/census', function(req, res) {
-  // var query = `
-  //       SELECT cz_name_cleaned
-  //       FROM Disaster
-  //       WHERE ROWNUM <= 5
-  //       ORDER BY damage_property DESC
-  // `;
-  // connection.execute(query, function(err, rows, fields) {
-  //   if (err) console.log(err);
-  //   else {
-  //     console.log(rows.rows);
-  //     res.json(rows.rows);
-  //   }
-  // });
-
-  //var rows = ["white", "black", "hispanic", "asian", "native", "pacific"];
-  //console.log(rows);
-  //res.json(rows);
+/* -----County----- */
+// "movie" ("county") must be all lowercase and no punctuation or spaces
+router.get('/county/:countyName', function (req, res) {
+  console.log("in index.js county")
+  var county = req.params.countyName;
+  var query = `
+  SELECT T.state, T.county, T.begin_date, T.end_date, P.episode_narrative, V.event_narrative
+  FROM episodenarrative P JOIN
+  (SELECT state, cz_name as county, begin_date, end_date, episode_id, event_id
+  FROM disaster D
+  WHERE D.cz_name_cleaned = '${county}') T
+  ON P.episode_id = T.episode_id JOIN Eventnarrative V
+  ON V.event_id = T.event_id
+  ORDER BY T.state`;
+  console.log(query);
+  connection.query(query, function (err, rows, fields) {
+    if (err) console.log(err);
+    else {
+      console.log(rows);
+      console.log(query);
+      console.log(err);
+      console.log(fields);
+      res.json(rows.rows);
+    }
+  });
 });
 
 router.get('/census/:r', function(req, res) {
@@ -184,7 +189,7 @@ router.get('/census/:r', function(req, res) {
     GROUP BY d.event_type
     ORDER BY num_counties DESC`;
 
-  console.log(query);
+  // console.log(query);
 
   connection.execute(query, function(err, rows, fields) {
     if (err) console.log(err);

@@ -33,26 +33,18 @@ app.controller('searchController', function($scope, $http) {
 
 // Controller for the County Page
 app.controller('countyController', function($scope, $http) {
-  //       $http({
-  //   url: '/decades',
-  //   method: 'GET'
-  // }).then(res => {
-  //   console.log("Decades: ", res.data);
-  //   $scope.decades = res.data;
-  // }, err => {
-  //   console.log("Decades ERROR: ", err);
-  // });
-  //   $scope.submitDecade = function() {
-  // 	$http({
-  //   url: '/decades/'+$scope.selectedDecade,
-  //   method: 'GET'
-  // }).then(res => {
-  //   console.log("Top Voted Based In " +$scope.selectedDecade, res.data);
-  //   $scope.bestofMovies = res.data;
-  // }, err => {
-  //   console.log("Top Voted ERROR: ", err);
-  // });
-  // }
+  $scope.submitIds = function() {
+    $http({
+      url: '/county/' + $scope.countyName,
+      method: 'GET'
+    }).then(res => {
+      console.log(data)
+      console.log("DESC in county: ", res.data);
+      $scope.countyDesc = res.data;
+    }, err => {
+      console.log("County ERROR: ", err);
+    });
+  }
 });
 
 

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+County<!DOCTYPE html>
 <html lang="en" ng-app="angularjsNodejsTutorial">
 
   <head>
@@ -35,21 +35,21 @@
         <div class="h5">Search for a county</div>
         <br>
         <div class="input-container">
-          <input type="text" ng-model="movieName" placeholder="Enter County Name" id="movieName" class="movie-input"/>
-          <button id="submitMovieBtn" class="submit-btn" ng-click="submitIds()">Submit</button>
+          <input type="text" ng-model="countyName" placeholder="Enter County Name" id="countyName" class="county-input"/>
+          <button id="submitCountyBtn" class="submit-btn" ng-click="submitIds()">Submit</button>
         </div>
-        <div class="movies-container">
-          <div class="movie">
+        <div class="county-container">
+          <div class="county">
             <div class="header"><strong>Event</strong></div>
             <div class="header"><strong>Description</strong></div>
             <div class="header"><strong>Census data?</strong></div>
             <div class="header"><strong>Census data?</strong></div>
           </div>
-          <div class="movie" id="results" ng-repeat="movie in recommendedMovies">
-            <div class="title">{{movie.title}}</div>
-            <div class="id">{{movie.id}}</div>
-            <div class="rating">{{movie.rating}}</div>
-            <div class="vote-count">{{movie.vote_count}}</div>
+          <div class="county" id="results" ng-repeat="county in recommendedCounty">
+            <div class="title">{{county.title}}</div>
+            <div class="id">{{county.id}}</div>
+            <div class="rating">{{county.rating}}</div>
+            <div class="vote-count">{{county.vote_count}}</div>
           </div>
         </div>
       </div>

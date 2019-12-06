@@ -175,39 +175,37 @@ router.get('/dashboardSummary', function(req, res) {
 //   });
 // });
 
-// router.get('/county/:countyName', function (req, res) {
-//   console.log("in index.js county")
-//
-//   var county = req.params.countyName;
-//   console.log(county);
-//
-//   var query = `
-//   SELECT
-//     state,
-//     cz_name,
-//     event_type,
-//     to_char(cast(begin_date as date),'DD-MM-YYYY'),
-//     to_char(cast(end_date as date),'DD-MM-YYYY')
-//     injuries_direct,
-//     injuries_indirect,
-//     deaths_direct,
-//     deaths_indirect,
-//     damage_property,
-//     damage_crops
-//   FROM disaster
-//   WHERE cz_name_cleaned = '${county}'
-//   ORDER BY state`;
-//
-//   console.log(query);
-//
-//   connection.execute(query, function (err, rows, fields) {
-//     if (err) console.log(err);
-//     else {
-//       console.log(rows);
-//       res.json(rows.rows);
-//     }
-//   });
-// });
+router.get('/county/:selectedState/:selectedCounty', function (req, res) {
+  var county = req.params.selectedCounty.toLowerCase().replace(/\s+/g, '');
+  var state = req.params.selectedState.toLowerCase().replace(/\s+/g, '');
+
+//DO NAME CLEANING STUFF HERE lowercase, remove spaces
+
+  console.log("STATE: ", state);
+  console.log("COUNTY", county);
+
+  var query = `
+  SELECT
+    state,
+    cz_name,
+    to_char(cast(begin_date as date),'DD-MM-YYYY') AS begin_date,
+    to_char(cast(end_date as date),'DD-MM-YYYY') AS end_date,
+    episode_id
+  FROM disaster
+  WHERE cz_name_cleaned = '${county}'
+  AND state_cleaned = '${state}'
+  ORDER BY begin_date`;
+
+  console.log(query);
+
+  connection.execute(query, function (err, rows, fields) {
+    if (err) console.log(err);
+    else {
+      console.log(rows);
+      res.json(rows.rows);
+    }
+  });
+});
 
 router.get('/countyQuery', function(req, res) {
   console.log('IN INDEX.JS');

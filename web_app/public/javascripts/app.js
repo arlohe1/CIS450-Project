@@ -72,17 +72,33 @@ app.controller('countyController', function($scope, $http) {
       console.log("COUNTIES ERROR: ", err);
     });
   }
-  // $scope.submitCounty = function() {
-  //   $http({
-  //     url: '/county/' + $scope.selected.decade,
-  //     method: 'GET'
-  //   }).then(res => {
-  //     console.log("MOVIES in bestof: ", res.data);
-  //     $scope.bestofMovies = res.data;
-  //   }, err => {
-  //     console.log("Best of movies ERROR: ", err);
-  //   });
-  // }
+
+    $scope.submitCounty = function() {
+      if ($scope.selectedState != null && $scope.selectedCounty != null){
+        $http({
+          url: '/county/' + $scope.selectedState + '/' + $scope.selectedCounty,
+          method: 'GET',
+          responseType: 'text'
+        }).then(res => {
+          console.log("DESC in county: ", res.data);
+          $scope.countyData = res.data;
+        }, err => {
+          console.log("County ERROR: ", err);
+        });
+      }
+      else if ($scope.selectedState != null){ //else just state
+        $http({
+          url: '/county/' + $scope.selectedState,
+          method: 'GET',
+          responseType: 'text'
+        }).then(res => {
+          console.log("DESC in county: ", res.data);
+          $scope.countyData = res.data;
+        }, err => {
+          console.log("County ERROR: ", err);
+        });
+      }
+    }
 });
 
 

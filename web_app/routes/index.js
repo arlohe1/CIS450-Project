@@ -175,38 +175,54 @@ router.get('/dashboardSummary', function(req, res) {
 //   });
 // });
 
-router.get('/county/:countyName', function (req, res) {
-  console.log("in index.js county")
+// router.get('/county/:countyName', function (req, res) {
+//   console.log("in index.js county")
+//
+//   var county = req.params.countyName;
+//   console.log(county);
+//
+//   var query = `
+//   SELECT
+//     state,
+//     cz_name,
+//     event_type,
+//     to_char(cast(begin_date as date),'DD-MM-YYYY'),
+//     to_char(cast(end_date as date),'DD-MM-YYYY')
+//     injuries_direct,
+//     injuries_indirect,
+//     deaths_direct,
+//     deaths_indirect,
+//     damage_property,
+//     damage_crops
+//   FROM disaster
+//   WHERE cz_name_cleaned = '${county}'
+//   ORDER BY state`;
+//
+//   console.log(query);
+//
+//   connection.execute(query, function (err, rows, fields) {
+//     if (err) console.log(err);
+//     else {
+//       console.log(rows);
+//       res.json(rows.rows);
+//     }
+//   });
+// });
 
-  var county = req.params.countyName;
-  console.log(county);
-
+router.get('/countyQuery', function(req, res) {
+  console.log('IN INDEX.JS');
   var query = `
-  SELECT
-    state,
-    cz_name,
-    event_type,
-    to_char(cast(begin_date as date),'DD-MM-YYYY'),
-    to_char(cast(end_date as date),'DD-MM-YYYY')
-    injuries_direct,
-    injuries_indirect,
-    deaths_direct,
-    deaths_indirect,
-    damage_property,
-    damage_crops
-  FROM disaster
-  WHERE cz_name_cleaned = '${county}'
-  ORDER BY state`;
-
+    SELECT DISTINCT state AS state
+    FROM County
+    ORDER BY state ASC
+  `;
+  console.log('QUERY:');
   console.log(query);
-
-  connection.execute(query, function (err, rows, fields) {
+  connection.execute(query, function(err, rows, fields) {
     if (err) console.log(err);
     else {
-      console.log(rows);
-      //console.log(query);
-      //console.log(err);
-      //console.log(fields);
+      console.log('QUERY RESULT: ')
+      console.log(rows.rows);
       res.json(rows.rows);
     }
   });

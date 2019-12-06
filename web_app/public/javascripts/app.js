@@ -4,7 +4,7 @@ var app = angular.module('angularjsNodejsTutorial', []);
  app.controller('dashboardController', function($scope, $http) {
    console.log("In app controller");
      $http({
-      url: '/dashboardSummary',
+      url: '/',
       method: 'GET'
     }).then(res => {
       console.log("DASHBOARD: ", res.data);
@@ -32,20 +32,45 @@ app.controller('searchController', function($scope, $http) {
 });
 
 // Controller for the County Page
+// app.controller('countyController', function($scope, $http) {
+//   $scope.submitIds = function() {
+//     $http({
+//       url: '/county/' + $scope.countyName,
+//       method: 'GET',
+//       responseType: 'text'
+//     }).then(res => {
+//       //console.log(data)
+//       console.log("DESC in county: ", res.data);
+//       $scope.countyDesc = res.data;
+//     }, err => {
+//       console.log("County ERROR: ", err);
+//     });
+//   }
+// });
+
 app.controller('countyController', function($scope, $http) {
-  $scope.submitIds = function() {
-    $http({
-      url: '/county/' + $scope.countyName,
-      method: 'GET',
-      responseType: 'text'
-    }).then(res => {
-      //console.log(data)
-      console.log("DESC in county: ", res.data);
-      $scope.countyDesc = res.data;
-    }, err => {
-      console.log("County ERROR: ", err);
-    });
-  }
+  console.log('outside in app.js');
+  $http({
+    url: '/countyQuery',
+    method: 'GET'
+  }).then(res => {
+    console.log("STATES: ", res.data);
+    $scope.states = res.data;
+  }, err => {
+    console.log("STATES ERROR: ", err);
+  });
+
+  // $scope.submitCounty = function() {
+  //   $http({
+  //     url: '/county/' + $scope.selected.decade,
+  //     method: 'GET'
+  //   }).then(res => {
+  //     console.log("MOVIES in bestof: ", res.data);
+  //     $scope.bestofMovies = res.data;
+  //   }, err => {
+  //     console.log("Best of movies ERROR: ", err);
+  //   });
+  // }
 });
 
 

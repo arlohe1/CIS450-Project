@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+County<!DOCTYPE html>
 <html lang="en" ng-app="angularjsNodejsTutorial">
 
   <head>
@@ -20,7 +20,7 @@
       <span class="navbar-brand center">Disaster Demographics</span>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-item nav-link" href="/dashboard">Dashboard</a>
+          <a class="nav-item nav-link" href="/">Dashboard</a>
           <a class="nav-item nav-link" href="/search">Search</a>
           <a class="nav-item nav-link active" href="/county">County</a>
           <a class="nav-item nav-link" href="/census">Census</a>
@@ -32,37 +32,35 @@
 <div class="h2">County</div>
     <div class="search-container">
       <div class="jumbotron">
-      <div class="input-sentence">Here are events that occurred in</div>
-      <div class="input-name" style="text-transform:capitalize">{{countyDesc[0][1]}} {{countyDesc[0][0]}}</div>
-      <br>
-    </br>
+        <div class="h5">Search for a county</div>
+        <br>
         <div class="input-container">
+          <div class="dropdown-container">
+            <select class="dropdown" id="statesDropdown" ng-model="selectedState" ng-options="s for s in states"></select>
+          </div>
+          <div class="dropdown-container">
+            <select class="dropdown" id="countyDropdown" ng-model="selectedCounty" ng-options="c.county for c in counties"></select>
+          </div>
+          <button class="submit-btn" id="countySubmitBtn" ng-click="submitCounty()">Submit</button>
+        </div>
+        <!-- <div class="input-container">
           <input type="text" ng-model="countyName" placeholder="Enter County Name" id="countyName" class="county-input"/>
           <button id="submitCountyBtn" class="submit-btn" ng-click="submitIds()">Submit</button>
-        </div>
-      </br>
+        </div> -->
         <div class="county-container">
           <div class="county">
-            <div class="header"><strong>Event Type</strong></div>
-            <div class="header"><strong>Start Date</strong></div>
-            <div class="header"><strong>End Date</strong></div>
-            <div class="header"><strong>Direct Injuries</strong></div>
-            <!--<<div class="header"><strong>Indirect Injuries</strong></div>-->
-            <div class="header"><strong>Direct Deaths</strong></div>
-            <!--<<div class="header"><strong>Indirect Deaths</strong></div>-->
-            <div class="header"><strong>Property Damage</strong></div>
-            <!--<div class="header"><strong>Crop Damage</strong></div>-->
+            <div class="header"><strong>Event</strong></div>
+            <div class="header"><strong>Description</strong></div>
+            <div class="header"><strong>Census data?</strong></div>
+            <div class="header"><strong>Census data?</strong></div>
           </div>
           <div class="county" id="results" ng-repeat="d in countyDesc">
-            <div class="event_type" style="text-transform:capitalize">{{d[2]}}</div>
-            <div class="begin_date">{{d[3]}}</div>
-            <div class="end_date">{{d[4]}}</div>
-            <div class="injuries_direct">{{d[5]}}</div>
-            <!--<div class="injuries_indirect">{{d[6]}}</div>-->
-            <div class="deaths_direct">{{d[7]}}</div>
-            <!--<div class="deaths_indirect">{{d[8]}}</div>-->
-            <div class="damage_property">{{d[9]}}</div>
-            <!--<div class="damage_crops">hellp</div>-->
+            <div class="title">{{d[0]}}</div>
+            <div class="id">{{d[1]}}</div>
+            <div class="rating">{{d[2]}}</div>
+            <div class="vote-count">{{d[3]}}</div>
+            <div class="vote-count">{{d[4]}}</div>
+            <div class="vote-count">{{d[5]}}</div>
           </div>
         </div>
       </div>

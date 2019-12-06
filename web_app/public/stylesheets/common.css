@@ -1,6 +1,6 @@
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background: url('./../assets/bg.jpg') center center no-repeat fixed;
+  background: url('./../assets/storm1.jpg') center center no-repeat fixed;
   height: 100vh;
   width: 100vw;
   -webkit-background-size: cover;
@@ -11,6 +11,23 @@ body {
 
 .nav-container {
   margin: 20px auto;
+}
+
+.navbar-custom {
+    color: white;
+    background-color: #0D1114;
+}
+
+.nav-item {
+  color: white;
+}
+
+.nav-item:hover {
+  color: #989898;
+}
+
+.active {
+  color: #989898;
 }
 
 .jumbotron {
@@ -45,4 +62,10 @@ body {
 
 .back-btn:active {
   background: #d86bbe;
+}
+
+.h2 {
+  color: white;
+  margin-top: 20px;
+  text-align: center;
 }

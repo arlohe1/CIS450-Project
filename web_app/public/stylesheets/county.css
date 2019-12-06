@@ -1,8 +1,11 @@
-.recommendations-container {
-  margin-top: 2rem;
+.search-container {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 5%;
+  border-radius: 10px;
 }
 
-.input-container .movie-input {
+.input-container .county-input {
   margin: 10px 0;
   width: 250px;
   height: 36px;
@@ -22,7 +25,7 @@
   box-sizing: border-box;
   border-radius: 20px;
   outline: none;
-  background: #bd54a4;
+  background: #1E5372;
   color: #fff;
   cursor: pointer;
   font-size: 12px;
@@ -36,20 +39,31 @@
   background: #d86bbe;
 }
 
-.movies-container {
+.input-sentence, .input-name {
+    display:inline;
+    font-size: 18px;
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+
+.county-container {
   display: flex;
   flex-flow: column wrap;
   margin-top: 10px;
 }
 
-.movies-container .movie {
+.county-container .county {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
+  justify-content: space-evenly;
   height: 40px;
   padding: 0 10px;
 }
 
-.movie .header, .movie .title, .movie .id, .movie .rating, .movie .vote-count {
-  flex: 1 0 25%;
+
+.county .header, .county .event_type, .county .begin_date, .county .injuries_direct, .county .deaths_direct, .county .damage_property,
+.county .damage_crops, .county .end_date {
+  flex: auto;
+  width: 16.67%;
 }

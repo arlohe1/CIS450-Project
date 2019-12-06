@@ -1,0 +1,103 @@
+.jumbotron{
+  background-color: transparent;
+}
+
+.race-boxes {
+  background-color: transparent;
+  display: flex;
+  flex-wrap: wrap;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  text-align: center;
+  font-size: 20px;
+  width: 80%;
+  margin: 0 auto;
+}
+
+ .race-boxes .race {
+  flex: 1 0 20%;
+  margin: 5px 0;
+  padding: 10px;
+  cursor: pointer;
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  color: white;
+  text-align: center;
+}
+
+.race-boxes .race:hover {
+  color: black;
+}
+
+.race-container {
+  margin: 0 auto;
+  width: 80%;
+  margin-top: 0%;
+  display: flex;
+  justify-content: flex-start;
+  background-color: white;
+  display: grid;
+  grid-column-gap: 50px;
+  grid-template-columns: 0.5fr 1fr 1fr;
+  border-radius: 10px;
+  border: 25px solid #fff;
+  /*margin-top: 0px;*/
+  /*column-count: 2;*/
+  /* border-bottom: 1px solid #ddd; */
+}
+
+.race-container .race {
+  flex: 1 0 20%;
+  margin: 5px 0;
+  padding: 10px;
+  cursor: pointer;
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: row nowrap;
+  height: 40px;
+  width: 50px;
+  color: black;
+  text-align: center;
+}
+
+.race-container .left-half {
+  background: white;
+  flex-flow: row wrap;
+  grid-column: 1;
+}
+
+.race-container .event-type {
+  background: white;
+  justify-self: left;
+  grid-column: 2;
+}
+
+.race-container .count-counties {
+  background: white;
+  justify-self: left;
+  grid-column: 3;
+}
+
+.race .event, .race .header-lg {
+  flex: 1 0 50%;
+}
+
+.race .header, .race .num, .race .votes {
+  flex: 1 0 25%;
+}
+
+.question {
+  font-size: 25px;
+}
+
+.answers {
+  font-size: 14px;
+  line-height: 1.5em;
+}

@@ -15,7 +15,7 @@
     "morgan": "~1.8.1",
     "mysql": "^2.14.1",
     "nodemon": "^1.19.2",
-    "oracledb": "^3.1.2",
+    "oracledb": "^4.0.1",
     "serve-favicon": "~2.4.2"
   },
   "devDependencies": {

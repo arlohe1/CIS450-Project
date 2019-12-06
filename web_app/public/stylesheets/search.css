@@ -1,0 +1,59 @@
+.body {
+  width: 100vw;
+}
+
+.search-container {
+  margin-top: 5%;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.jumbotron {
+  margin-top: 5%;
+  background-color: #f3f4f7;
+}
+
+.filter-container {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: left;
+  justify-content: space-evenly;
+}
+
+.filter-container .submit-btn {
+  margin-left: 10px;
+  width: 100px;
+  height: 36px;
+  border: none;
+  padding: 2px 16px;
+  box-sizing: border-box;
+  border-radius: 20px;
+  outline: none;
+  background: #1E5372;
+  color: #fff;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.filter-container .submit-btn:hover {
+  background: #c561ae;
+}
+
+.filter-container .submit-btn:active {
+  background: #d86bbe;
+}
+
+.events-container {
+  width: 80%;
+  margin: 0 auto;
+  flex-flow: column wrap;
+}
+
+.events-container .events {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 40px;
+  padding: 0 10px;
+}

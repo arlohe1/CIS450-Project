@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="angularjsNodejsTutorial">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Disaster Demographics: Search</title>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="javascripts/app.js" type="text/javascript"></script>
+    <!-- Custom styles for this template-->
+    <link href="/stylesheets/common.css" rel="stylesheet">
+    <link href="/stylesheets/county.css" rel="stylesheet">
+  </head>
+
+  <body ng-controller="countyController">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+      <span class="navbar-brand center">Disaster Demographics</span>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-item nav-link" href="/dashboard">Dashboard</a>
+          <a class="nav-item nav-link" href="/search">Search</a>
+          <a class="nav-item nav-link active" href="/county">County</a>
+          <a class="nav-item nav-link" href="/census">Census</a>
+        </div>
+      </div>
+    </nav>
+
+  </br>
+<div class="h2">County</div>
+    <div class="search-container">
+      <div class="jumbotron">
+      <div class="input-sentence">Here are events that occurred in</div>
+      <div class="input-name" style="text-transform:capitalize">{{countyDesc[0][1]}} {{countyDesc[0][0]}}</div>
+      <br>
+    </br>
+        <div class="input-container">
+          <input type="text" ng-model="countyName" placeholder="Enter County Name" id="countyName" class="county-input"/>
+          <button id="submitCountyBtn" class="submit-btn" ng-click="submitIds()">Submit</button>
+        </div>
+      </br>
+        <div class="county-container">
+          <div class="county">
+            <div class="header"><strong>Event Type</strong></div>
+            <div class="header"><strong>Start Date</strong></div>
+            <div class="header"><strong>End Date</strong></div>
+            <div class="header"><strong>Direct Injuries</strong></div>
+            <!--<<div class="header"><strong>Indirect Injuries</strong></div>-->
+            <div class="header"><strong>Direct Deaths</strong></div>
+            <!--<<div class="header"><strong>Indirect Deaths</strong></div>-->
+            <div class="header"><strong>Property Damage</strong></div>
+            <!--<div class="header"><strong>Crop Damage</strong></div>-->
+          </div>
+          <div class="county" id="results" ng-repeat="d in countyDesc">
+            <div class="event_type" style="text-transform:capitalize">{{d[2]}}</div>
+            <div class="begin_date">{{d[3]}}</div>
+            <div class="end_date">{{d[4]}}</div>
+            <div class="injuries_direct">{{d[5]}}</div>
+            <!--<div class="injuries_indirect">{{d[6]}}</div>-->
+            <div class="deaths_direct">{{d[7]}}</div>
+            <!--<div class="deaths_indirect">{{d[8]}}</div>-->
+            <div class="damage_property">{{d[9]}}</div>
+            <!--<div class="damage_crops">hellp</div>-->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Include these before the end of body tag in every HTML file -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+  </body>
+
+</html>

@@ -212,7 +212,7 @@ router.get('/dashboardSummary', function(req, res) {
 router.get('/countyQuery', function(req, res) {
   console.log('IN INDEX.JS');
   var query = `
-    SELECT DISTINCT state AS state
+    SELECT DISTINCT state
     FROM County
     ORDER BY state ASC
   `;
@@ -222,6 +222,25 @@ router.get('/countyQuery', function(req, res) {
     if (err) console.log(err);
     else {
       console.log('QUERY RESULT: ')
+      console.log(rows.rows);
+      res.json(rows.rows);
+    }
+  });
+});
+
+router.get('/countyQuery/:selectedState', function (req, res) {
+  var state = req.params.selectedState;
+  console.log("Param in countyQuery state", state);
+  var query = `
+    SELECT name
+    FROM County
+    WHERE state = '${state}'
+    ORDER BY name
+    `;
+  console.log(query);
+  connection.execute(query, function (err, rows, fields) {
+    if (err) console.log(err);
+    else {
       console.log(rows.rows);
       res.json(rows.rows);
     }

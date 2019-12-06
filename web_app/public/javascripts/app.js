@@ -60,6 +60,18 @@ app.controller('countyController', function($scope, $http) {
     console.log("STATES ERROR: ", err);
   });
 
+  $scope.selectedStateChanged = function(){
+    console.log("Selected state: ", $scope.selectedState[0]);
+    $http({
+      url: '/countyQuery/' + $scope.selectedState[0],
+      method: 'GET'
+    }).then(res => {
+      console.log("COUNTIES: ", res.data);
+      $scope.counties = res.data;
+    }, err => {
+      console.log("COUNTIES ERROR: ", err);
+    });
+  }
   // $scope.submitCounty = function() {
   //   $http({
   //     url: '/county/' + $scope.selected.decade,

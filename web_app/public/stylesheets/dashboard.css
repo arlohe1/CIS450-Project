@@ -35,6 +35,8 @@
 }
 
 .summary .item-5 {
+  padding: 10px;
+  text-align: center;
   background-color: white;
   grid-column: 2;
   grid-row: 1;
@@ -66,4 +68,10 @@
   font-size: 14px;
   line-height: 1.5em;
   color: black;
+}
+
+.summary .item-5 .text {
+  padding: 3px;
+  text-align: center;
+  font-size: 25px;
 }

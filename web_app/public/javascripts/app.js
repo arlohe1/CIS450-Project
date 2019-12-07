@@ -51,7 +51,24 @@ var app = angular.module('angularjsNodejsTutorial', []);
     };
   showTopEvents();
 
+  // Region with highest disaster occurences
+  var showTopRegion = function () {
+    $http({
+      url: '/dashboardSummary/topRegion',
+      method: 'GET'
+    }).then(res => {
+      $scope.topCounty = res.data[0][1].charAt(0).toUpperCase() + res.data[0][1].slice(1);
+      $scope.topState = res.data[0][0].charAt(0).toUpperCase() + res.data[0][0].slice(1);
+      $scope.topCount = res.data[0][2];
+      console.log(res.data);
+    }, err => {
+      console.log("topRegion ERROR ", err)
+    })
+  };
+  showTopRegion();
+
 });
+
 
 // Controller for the Search Page
 app.controller('searchController', function($scope, $http) {

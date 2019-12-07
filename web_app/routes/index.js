@@ -180,6 +180,30 @@ router.get('/dashboardSummary/topEvents', function(req, res) {
 });
 
 
+router.get('/dashboardSummary/topRegion', function(req, res) {
+
+  var query = `
+  WITH T AS
+    (SELECT D.state AS state, D.cz_name AS county, COUNT(*) AS count
+    FROM Disaster D INNER JOIN County C
+    ON D.state_cleaned = C.state_cleaned AND D.cz_name_cleaned = C.name_cleaned
+    GROUP BY D.state, D.cz_name
+    ORDER BY count DESC)
+  SELECT state, county, count
+  FROM T
+  WHERE count = (SELECT MAX(count)
+  FROM T)`;
+
+  connection.execute(query, function (err, rows, fields) {
+    if (err) console.log("topRegion", err);
+    else {
+      console.log(rows);
+      res.json(rows.rows);
+    }
+  })
+})
+
+
 /* ----- Q2 (Recommendations) ----- */
 
 

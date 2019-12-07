@@ -1,6 +1,9 @@
 {
   "name": "mynodeproject",
   "version": "0.0.0",
+  "engines": {
+    "node": "12.13.x"
+  },
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
@@ -22,5 +25,12 @@
     "chromedriver": "^76.0.1",
     "mocha": "^6.2.0",
     "selenium-webdriver": "^4.0.0-alpha.5"
-  }
+  },
+  "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }

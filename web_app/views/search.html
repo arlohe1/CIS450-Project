@@ -37,41 +37,44 @@
         <div class="filter-container">
           <div class="h4">Filter by</div>
           <div class="dropdown-container">
-            <select class="dropdown" id="stateDropdown" ng-model="selectedState" ng-options="d.decade for d in decades"></select>
+            <select class="dropdown" id="disasterDropdown" ng-model="selectedEventType" ng-options="t for t in eventTypes"></select>
           </div>
           <div class="dropdown-container">
-            <select class="dropdown" id="countyDropdown" ng-model="selectedCounty" ng-options="d.decade for d in decades"></select>
-          </div>
-          <div class="dropdown-container">
-            <select class="dropdown" id="disasterDropdown" ng-model="selectedDisaster" ng-options="d.decade for d in decades"></select>
+            <select class="dropdown" id="countyDropdown" ng-model="selectedMonth" ng-options="m for m in months"></select>
           </div>
           <div class="h4">Sort by</div>
           <div class="dropdown-container">
-            <select class="dropdown" id="damageDropdown" ng-model="selectedDamage" ng-options="d.decade for d in decades"></select>
+            <select class="dropdown" id="sortDropdown" ng-model="selectedCategory" ng-options="c for c in sortCategories"></select>
           </div>
-          <button class="submit-btn" id="decadesSubmitBtn" ng-click="submitDecade()">Submit</button>
+          <button class="submit-btn" id="decadesSubmitBtn" ng-click="submitEventType()">Submit</button>
     </div>
   </div>
 </div>
 
         <div class="events-container">
           <div class="jumbotron">
-          <div class="events">
-            <div class="header"><strong>Disaster Name</strong></div>
-            <div class="header"><strong>State</strong></div>
-            <div class="header"><strong>County</strong></div>
-            <div class="header"><strong>Event Type</strong></div>
-            <div class="header"><strong>Damages</strong></div>
-            <div class="header"><strong>Deaths</strong></div>
-          </div>
-          <div class="events" id="results" ng-repeat="event in bestofMovies">
-            <div class="genre">{{event.name}}</div>
-            <div class="title">{{event.state}}</div>
-            <div class="votes">{{event.county}}</div>
-            <div class="year">{{event.type}}</div>
-            <div class="year">{{event.damages}}</div>
-            <div class="year">{{event.deaths}}</div>
-          </div>
+          <table id="weatherEvents">
+            <tr>
+              <th>Episode Id</th>
+              <th>Event Type</th>
+              <th>State</th>
+              <th>County</th>
+              <th>Begin Date</th>
+              <th>Total Injuries</th>
+              <th>Total Deaths</th>
+              <th>Total Damages</th>
+            </tr>
+            <tr ng-repeat="event in weatherEvents">
+              <td><a href="/episode#?ep_id={{event[0]}}">{{event[0]}}</a></td>
+              <td>{{event[1]}}</td>
+              <td>{{event[2]}}</td>
+              <td>{{event[3]}}</td>
+              <td>{{event[4]}}</td>
+              <td>{{event[5]}}</td>
+              <td>{{event[6]}}</td>
+              <td>{{event[7]}}</td>
+            </tr>
+          </table>
         </div>
       </div>
 

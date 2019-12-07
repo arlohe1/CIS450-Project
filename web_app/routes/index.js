@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var path = require('path');
+var moment = require('moment');
 
 /* ----- Connects to your mySQL database ----- */
 
@@ -276,11 +277,15 @@ router.get('/episodeEvents', function(req, res) {
     SELECT D.*
     FROM disaster D
     WHERE D.episode_id=${ep_id}
-    ORDER BY D.event_id DESC`;
+    ORDER BY D.event_id ASC`;
 
   connection.execute(query, function(err, rows, fields) {
     if (err) console.log(err);
     else {
+      for(event of rows.rows) {
+        event[3] = moment(event[3]).format("MMM DD, YYYY");
+        event[4]= moment(event[4]).format("MMM DD, YYYY");
+      }
       res.json(rows.rows);
     }
   });

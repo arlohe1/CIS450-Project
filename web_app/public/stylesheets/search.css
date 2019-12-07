@@ -52,8 +52,9 @@
 .events-container .events {
   display: flex;
   flex-flow: row nowrap;
-  align-items: center;
-  justify-content: space-evenly;
+  align-items: left;
+  justify-content: space-between;
   height: 40px;
   padding: 0 10px;
 }
+

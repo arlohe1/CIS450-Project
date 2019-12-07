@@ -5,39 +5,8 @@ var path = require('path');
 
 /* ----- Connects to your mySQL database ----- */
 
-// var mysql = require('mysql');
-
-// config.connectionLimit = 10;
-// var connection = mysql.createPool(config);
 const oracledb = require('oracledb');
 
-// var connection;
-// var pool = oracledb.createPool({
-//   user     : "hackerman",
-//   password : "beepboop",
-//   connectString : "cis450proj.c9gzklizhtyu.us-east-1.rds.amazonaws.com:1521/cis450db"
-// };
-
-
-// function(err, connection)
-//   {
-//     if (err) { console.error(err); return; }
-//     connection.query(
-//       "SELECT event_id, state_cleaned, cz_name_cleaned, damage_property "
-//     + "FROM Disaster "
-//     + "WHERE damage_property > 1000000 "
-//     + "AND state='ohio'"
-//     + "ORDER BY damage_property",
-//       function(err, rows, fields)
-//       {
-//         if (err) { console.error(err); return; }
-//         else {
-//                   console.log(rows);
-//                   res.json(rows);
-//         }
-
-//       });
-//   }
 
 var connection;
 async function run() {
@@ -57,25 +26,6 @@ async function run() {
 }
 
 run();
-
-//     const result = await connection.execute(
-//       `
-//     SELECT *
-//       FROM Disaster
-//       ORDER BY damage_property DESC
-//       LIMIT 10;
-//   `);
-//     console.log(result.rows);
-
-//   }
-
-// catch (err) {
-//   console.log(err);
-// }
-
-// }
-
-// run();
 
 
 
@@ -143,37 +93,136 @@ router.get('/dashboardSummary', function(req, res) {
   });
 });
 
-/* ----- Q2 (Recommendations) ----- */
+/* ----- Search ----- */
+router.get('/filters', function(req, res) {
+  console.log("entered filters router");
+  var query = `
+    SELECT DISTINCT event_type 
+    FROM disaster d
+    ORDER BY event_type
+    `;
+  connection.execute(query, function(err, rows, fields) {
+  if (err) console.log(err);
+  else {
+    console.log(rows.rows);
+    res.json(rows.rows);
+  }
+  });
+}
+
+);
+
+router.get('/filters/:filterData/:month/:sortCategory', function(req, res) {
+  console.log("in index.js search");
+
+  var filterData = req.params.filterData;
+  var month = req.params.month;
+  var sortCategory = req.params.sortCategory;
+
+  console.log(filterData);
+  console.log(month);
+  console.log(sortCategory);
+
+  var query = '';
+
+  if (filterData == "all events") {
+    query = `
+    SELECT event_type, state, cz_name, to_char(cast(begin_date as date),'MM-DD-YYYY'), 
+      injuries_direct+injuries_indirect AS total_injuries,
+      deaths_direct+deaths_indirect AS total_deaths, 
+      damage_property+damage_crops AS total_damages 
+      FROM disaster d
+    `;
+  }
+
+  else {
+    query = `
+    SELECT event_type, state, cz_name, to_char(cast(begin_date as date),'MM-DD-YYYY'), 
+      injuries_direct+injuries_indirect AS total_injuries,
+      deaths_direct+deaths_indirect AS total_deaths, 
+      damage_property+damage_crops AS total_damages 
+      FROM disaster d
+      WHERE event_type='${filterData}'
+    `;
+  }
+
+  var lower;
+  var upper;
+  switch(month){
+    case "January":
+      lower = "JAN";
+      upper = "FEB";
+      break;
+    case "February":
+      lower = "FEB";
+      upper = "MAR";
+      break;
+    case "March":
+      lower = "MAR";
+      upper = "APR";
+      break;
+    case "April":
+      lower = "APR";
+      upper = "MAY";
+      break;
+    case "May":
+      lower = "MAY";
+      upper = "JUN";
+      break;
+    case "June":
+      lower = "JUN";
+      upper = "JUL";
+      break;
+    case "July":
+      lower = "JUL";
+      upper = "AUG";
+      break;
+    default:
+      lower = "JAN";
+      upper = "AUG";
+  }
+
+  if (filterData == "all events") {
+    query += ` WHERE begin_date >= '${"01-"+lower+"-19"}' AND end_date < '${"01-"+upper+"-19"}'`;
+  }
+  else {
+    query += ` AND begin_date >= '${"01-"+lower+"-19"}' AND end_date < '${"01-"+upper+"-19"}'`;
+  }
 
 
+  switch(sortCategory) {
+    case "Total Injuries":
+      query += " ORDER BY total_injuries DESC";
+      break;
+    case "Total Damages":
+      console.log("reached sort case damages");
+      query += " ORDER BY total_damages DESC";
+      break;
+    case "Total Deaths":
+      console.log("reached sort case deaths");
+      query += " ORDER BY total_deaths DESC";
+      break;
+    case "Begin Date":
+      console.log("reached sort case begin date");
+      query += " ORDER BY begin_date DESC";
+      break;
+    default:
+      query += " ORDER BY state, cz_name, begin_date";
+  }
+
+  console.log("final query, ", query);
+
+  connection.execute(query, function (err, rows, fields) {
+    if (err) console.log(err);
+    else {
+      console.log(rows);
+      res.json(rows.rows);
+    }
+  });
+
+});
 
 
-/* -----County----- */
-// "movie" ("county") must be all lowercase and no punctuation or spaces
-// router.get('/county/:countyName', function (req, res) {
-//   console.log("in index.js county")
-//   var county = req.params.countyName;
-//   var query = `
-//   SELECT T.state, T.county, T.begin_date, T.end_date, P.episode_narrative, V.event_narrative
-//   FROM episodenarrative P JOIN
-//   (SELECT state, cz_name as county, begin_date, end_date, episode_id, event_id
-//   FROM disaster D
-//   WHERE D.cz_name_cleaned = '${county}') T
-//   ON P.episode_id = T.episode_id JOIN Eventnarrative V
-//   ON V.event_id = T.event_id
-//   ORDER BY T.state`;
-//   console.log(query);
-//   connection.execute(query, function (err, rows, fields) {
-//     if (err) console.log(err);
-//     else {
-//       console.log(rows);
-//       //console.log(query);
-//       //console.log(err);
-//       //console.log(fields);
-//       res.json(rows.rows);
-//     }
-//   });
-// });
 
 router.get('/county/:countyName', function (req, res) {
   console.log("in index.js county")

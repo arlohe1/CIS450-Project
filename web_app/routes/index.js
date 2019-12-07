@@ -1,43 +1,13 @@
 var express = require('express');
 var router = express.Router();
 var path = require('path');
-// var config = require('../db-config.js');
 
 /* ----- Connects to your mySQL database ----- */
 
-// var mysql = require('mysql');
-
-// config.connectionLimit = 10;
-// var connection = mysql.createPool(config);
 const oracledb = require('oracledb');
-
-// var connection;
-// var pool = oracledb.createPool({
-//   user     : "hackerman",
-//   password : "beepboop",
-//   connectString : "cis450proj.c9gzklizhtyu.us-east-1.rds.amazonaws.com:1521/cis450db"
-// };
+oracledb.fetchAsString = [ oracledb.CLOB ];
 
 
-// function(err, connection)
-//   {
-//     if (err) { console.error(err); return; }
-//     connection.query(
-//       "SELECT event_id, state_cleaned, cz_name_cleaned, damage_property "
-//     + "FROM Disaster "
-//     + "WHERE damage_property > 1000000 "
-//     + "AND state='ohio'"
-//     + "ORDER BY damage_property",
-//       function(err, rows, fields)
-//       {
-//         if (err) { console.error(err); return; }
-//         else {
-//                   console.log(rows);
-//                   res.json(rows);
-//         }
-
-//       });
-//   }
 
 var connection;
 async function run() {
@@ -57,25 +27,6 @@ async function run() {
 }
 
 run();
-
-//     const result = await connection.execute(
-//       `
-//     SELECT *
-//       FROM Disaster
-//       ORDER BY damage_property DESC
-//       LIMIT 10;
-//   `);
-//     console.log(result.rows);
-
-//   }
-
-// catch (err) {
-//   console.log(err);
-// }
-
-// }
-
-// run();
 
 
 
@@ -100,6 +51,10 @@ router.get('/county', function(req, res) {
 /* ----- Bonus (Posters) ----- */
 router.get('/census', function(req, res) {
   res.sendFile(path.join(__dirname, '../', 'views', 'census.html'));
+});
+
+router.get('/episode', function(req, res) {
+  res.sendFile(path.join(__dirname, '../', 'views', 'episode.html'));
 });
 
 router.get('/reference', function(req, res) {
@@ -145,36 +100,6 @@ router.get('/dashboardSummary', function(req, res) {
 
 /* ----- Q2 (Recommendations) ----- */
 
-
-
-
-/* -----County----- */
-// "movie" ("county") must be all lowercase and no punctuation or spaces
-// router.get('/county/:countyName', function (req, res) {
-//   console.log("in index.js county")
-//   var county = req.params.countyName;
-//   var query = `
-//   SELECT T.state, T.county, T.begin_date, T.end_date, P.episode_narrative, V.event_narrative
-//   FROM episodenarrative P JOIN
-//   (SELECT state, cz_name as county, begin_date, end_date, episode_id, event_id
-//   FROM disaster D
-//   WHERE D.cz_name_cleaned = '${county}') T
-//   ON P.episode_id = T.episode_id JOIN Eventnarrative V
-//   ON V.event_id = T.event_id
-//   ORDER BY T.state`;
-//   console.log(query);
-//   connection.execute(query, function (err, rows, fields) {
-//     if (err) console.log(err);
-//     else {
-//       console.log(rows);
-//       //console.log(query);
-//       //console.log(err);
-//       //console.log(fields);
-//       res.json(rows.rows);
-//     }
-//   });
-// });
-
 router.get('/county/:countyName', function (req, res) {
   console.log("in index.js county")
 
@@ -204,9 +129,6 @@ router.get('/county/:countyName', function (req, res) {
     if (err) console.log(err);
     else {
       console.log(rows);
-      //console.log(query);
-      //console.log(err);
-      //console.log(fields);
       res.json(rows.rows);
     }
   });
@@ -224,8 +146,6 @@ router.get('/census/:r', function(req, res) {
     GROUP BY d.event_type
     ORDER BY num_counties DESC`;
 
-  // console.log(query);
-
   connection.execute(query, function(err, rows, fields) {
     if (err) console.log(err);
     else {
@@ -234,6 +154,40 @@ router.get('/census/:r', function(req, res) {
     }
   });
 });
+
+
+
+router.get('/episodeEvents', function(req, res) {
+  var ep_id = req.query.ep_id;
+  var query = `
+    SELECT D.*
+    FROM disaster D
+    WHERE D.episode_id=${ep_id}
+    ORDER BY D.event_id DESC`;
+
+  connection.execute(query, function(err, rows, fields) {
+    if (err) console.log(err);
+    else {
+      res.json(rows.rows);
+    }
+  });
+});
+
+router.get('/episodeNarrative', function(req, res) {
+  var ep_id = req.query.ep_id;
+  var query = `
+    SELECT EN.episode_narrative
+    FROM EpisodeNarrative EN
+    WHERE EN.episode_id=${ep_id}`;
+
+  connection.execute(query, function(err, rows, fields) {
+    if (err) console.log(err);
+    else {
+      res.json(rows.rows);
+    }
+  });
+});
+
 
 
 

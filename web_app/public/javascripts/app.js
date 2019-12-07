@@ -79,25 +79,27 @@ app.controller('censusController', function($scope, $http) {
 	}
 });
 
-// app.controller('censusController', function($scope, $http) {
-//   $http({
-//     url: '/census',
-//     method: 'GET'
-//   }).then(res => {
-//     console.log("Census: ", res.data);
-//     $scope.census = res.data;
-//   }, err => {
-//     console.log("Census ERROR: ", err);
-//   });
-//     $scope.submitDecade = function() {
-//   	$http({
-//     url: '/decades/'+$scope.selectedDecade,
-//     method: 'GET'
-//   }).then(res => {
-//     console.log("Top Voted Based In " +$scope.selectedDecade, res.data);
-//     $scope.bestofMovies = res.data;
-//   }, err => {
-//     console.log("Top Voted ERROR: ", err);
-//   });
-//   }
-// });
+
+// Controller for the Episode Details Page
+app.controller('episodeController', function($scope,  $location, $http,) {
+  var queryParams = $location.search();
+  $http({
+    url: '/episodeEvents?ep_id='+queryParams.ep_id,
+    method: 'GET'
+  }).then(res => {
+    $scope.episodeID = queryParams.ep_id;
+    $scope.episodeEvents = res.data;
+  }, err => {
+    console.log("episodeController ERROR: ", err);
+  });
+
+   $http({
+    url: '/episodeNarrative?ep_id='+queryParams.ep_id,
+    method: 'GET'
+  }).then(res => {
+    $scope.episodeNarrative = res.data;
+  }, err => {
+    console.log("episodeController ERROR: ", err);
+  });
+
+});

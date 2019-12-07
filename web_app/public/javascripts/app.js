@@ -3,27 +3,54 @@ var app = angular.module('angularjsNodejsTutorial', []);
 // Controller for the Dashboard Page
  app.controller('dashboardController', function($scope, $http) {
    console.log("In app controller");
-     $http({
+
+   $http({
       url: '/dashboardSummary',
       method: 'GET'
     }).then(res => {
       console.log("DASHBOARD: ", res.data);
-      $scope.genres = res.data;
+
+      // Proportion of each race affected
+      flat = [];
+      for (var i = 0; i < res.data.length; i++) {
+        flat = flat.concat(res.data[i]);
+      }
+      new Chart(document.getElementById("pie-chart"), {
+          type: 'pie',
+          data: {
+            labels: ['White', 'Hispanic', 'Black', 'Native', 'Asian', 'Pacific'],
+            datasets: [{
+              label: "Population",
+              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+              data: flat
+            }]
+          },
+          options: {
+            title: {
+              display: true,
+              text: 'Percentage of Different Races Affected By Disasters'
+            }
+          }
+      });
     }, err => {
       console.log("Dashboard ERROR: ", err);
     });
-    // $scope.showMovies = function(g) {
-    // 	$scope.g = g.genre
-    //   $http({
-    //   url: '/genres/'+$scope.g,
-    //   method: 'GET'
-    // }).then(res => {
-    //   console.log("TOP 10 MOVIES in " +$scope.g, res.data);
-    //   $scope.movies = res.data;
-    // }, err => {
-    //   console.log("MOVIES in Genre ERROR: ", err);
-    // });
-//  }
+
+
+   // Top event types affecting people
+   var showTopEvents = function() {
+      $http({
+        url: '/dashboardSummary/topEvents',
+        method: 'GET'
+      }).then(res => {
+        $scope.topEvents = res.data;
+        console.log(res.data);
+      }, err => {
+        console.log("topEvents ERROR ", err)
+      })
+    };
+  showTopEvents();
+
 });
 
 // Controller for the Search Page

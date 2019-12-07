@@ -55,6 +55,7 @@
           <div class="jumbotron">
           <table id="weatherEvents">
             <tr>
+              <th>Episode Id</th>
               <th>Event Type</th>
               <th>State</th>
               <th>County</th>
@@ -64,13 +65,14 @@
               <th>Total Damages</th>
             </tr>
             <tr ng-repeat="event in weatherEvents">
-              <td>{{event[0]}}</td>
+              <td><a href="/episode?ep_id={{event[0]}}">{{event[0]}}</a></td>
               <td>{{event[1]}}</td>
               <td>{{event[2]}}</td>
               <td>{{event[3]}}</td>
               <td>{{event[4]}}</td>
               <td>{{event[5]}}</td>
               <td>{{event[6]}}</td>
+              <td>{{event[7]}}</td>
             </tr>
           </table>
         </div>

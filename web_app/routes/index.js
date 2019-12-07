@@ -127,7 +127,7 @@ router.get('/filters/:filterData/:month/:sortCategory', function(req, res) {
 
   if (filterData == "all events") {
     query = `
-    SELECT event_type, state, cz_name, to_char(cast(begin_date as date),'MM-DD-YYYY'), 
+    SELECT episode_id, event_type, state, cz_name, to_char(cast(begin_date as date),'MM-DD-YYYY'), 
       injuries_direct+injuries_indirect AS total_injuries,
       deaths_direct+deaths_indirect AS total_deaths, 
       damage_property+damage_crops AS total_damages 
@@ -137,7 +137,7 @@ router.get('/filters/:filterData/:month/:sortCategory', function(req, res) {
 
   else {
     query = `
-    SELECT event_type, state, cz_name, to_char(cast(begin_date as date),'MM-DD-YYYY'), 
+    SELECT episode_id, event_type, state, cz_name, to_char(cast(begin_date as date),'MM-DD-YYYY'), 
       injuries_direct+injuries_indirect AS total_injuries,
       deaths_direct+deaths_indirect AS total_deaths, 
       damage_property+damage_crops AS total_damages 

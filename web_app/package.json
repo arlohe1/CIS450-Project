@@ -6,6 +6,10 @@
     "start": "node ./bin/www",
     "test": "mocha --no-timeouts"
   },
+  "keywords": [
+    "example",
+    "heroku"
+  ],
   "dependencies": {
     "body-parser": "~1.17.1",
     "cookie-parser": "~1.4.3",

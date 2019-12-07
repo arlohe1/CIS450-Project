@@ -36,7 +36,9 @@ County<!DOCTYPE html>
     <br>
     <div class="input-container">
       <div class="dropdown-container">
+        <class="h4">State: </class>
         <select class="dropdown" id="statesDropdown" ng-model="selectedState" ng-options="s for s in states" ng-change="selectedStateChanged()"></select>
+        <class="h4">County (optional): </class>
         <select class="dropdown" id="countyDropdown" ng-model="selectedCounty" ng-options="c for c in counties"></select>
         <button class="submit-btn" id="countySubmitBtn" ng-click="submitCounty()">Submit</button>
       </div>
@@ -45,9 +47,9 @@ County<!DOCTYPE html>
       <button id="submitCountyBtn" class="submit-btn" ng-click="submitIds()">Submit</button>
     </div> -->
     <div class="county-container">
-      <table>
+      <table id = "countyResults">
         <!-- <thead> -->
-          <tr class="county">
+          <tr>
             <th class="header"><strong>State</strong></th>
             <th class="header"><strong>County</strong></th>
             <th class="header"><strong>Begin Date</strong></th>
@@ -56,13 +58,14 @@ County<!DOCTYPE html>
           </tr>
         <!-- </thead>
         <tbody> -->
-          <tr class="county" id="results" ng-repeat="d in countyData">
-            <td class="state" style="text-transform:capitalize">{{d[0]}}</td>
-            <td class="county" style="text-transform:capitalize">{{d[1]}}</td>
-            <td class="begin_date">{{d[2]}}</td>
-            <td class="end_date">{{d[3]}}</td>
+          <tr ng-repeat="d in countyData">
+            <td style="text-transform:capitalize">{{d[0]}}</td>
+            <td style="text-transform:capitalize">{{d[1]}}</td>
+            <td>{{d[2]}}</td>
+            <td>{{d[3]}}</td>
             <!-- <div class="episode_id">{{d[4]}}</div> -->
-            <td><a href="/episode?ep_id={{d[4]}}">{{d[4]}}</a></td>
+            <!-- /episode#?ep_id=136052 -->
+            <td><a href="/episode#?ep_id={{d[4]}}">{{d[4]}}</a></td>
           </tr>
         <!-- </tbody> -->
       </table>

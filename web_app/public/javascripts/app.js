@@ -28,7 +28,39 @@ var app = angular.module('angularjsNodejsTutorial', []);
 
 // Controller for the Search Page
 app.controller('searchController', function($scope, $http) {
-  // TODO: Q2
+  $http({
+    url: '/filters',
+    method: 'GET'
+  }).then(res => {
+    console.log("Filters: ", res.data);
+    res.data.unshift(["all events"])
+    $scope.eventTypes = res.data;
+    console.log("all added, ", $scope.eventTypes);
+  }, err => {
+    console.log("Filters ERROR: ", err);
+  });
+
+  var months = ["All", "January", "February", "March", "April", "May", "June", "July"];
+  var sortCategories = ["Begin Date", "Total Injuries", "Total Deaths", "Total Damages"];
+
+  $scope.months = months;
+  $scope.sortCategories = sortCategories;
+
+  $scope.submitEventType = function() {
+    console.log("selected event: ", $scope.selectedEventType);
+    console.log("selected month: ", $scope.selectedMonth);
+    console.log("selected sort category", $scope.selectedCategory);
+  	$http({
+    url: '/filters/'+$scope.selectedEventType+'/'+$scope.selectedMonth+'/'+$scope.selectedCategory,
+    method: 'GET'
+  }).then(res => {
+    console.log("Selected in this event type " +$scope.selectedEventType, res.data);
+    $scope.weatherEvents = res.data; // bestOfMovies
+  }, err => {
+    console.log("weather events ERROR: ", err);
+  });
+  }
+
 });
 
 // Controller for the County Page

@@ -283,27 +283,55 @@ router.get('/county/:countyName', function (req, res) {
     if (err) console.log(err);
     else {
       console.log(rows);
-      //console.log(query);
-      //console.log(err);
-      //console.log(fields);
       res.json(rows.rows);
     }
   });
 });
 
-router.get('/census/:r', function(req, res) {
-  var inputRace = req.params.r;
-    console.log(inputRace);
+
+router.get('/censusEvents', function(req, res) {
   var query = `
-    SELECT d.event_type, COUNT(*) AS num_counties
+    SELECT event_type
+    FROM disaster
+    GROUP BY event_type
+    ORDER BY event_type`;
+
+  connection.execute(query, function(err, rows, fields) {
+    if (err) console.log(err);
+    else {
+      console.log(rows);
+      res.json(rows.rows);
+    }
+  });
+});
+
+
+router.get('/censusEvents/:selectedEventType', function(req, res) {
+  var inputType = req.params.selectedEventType;
+  console.log('this is input', inputType);
+
+  var query = `
+    SELECT
+      ROUND(AVG(percent_white)),
+      ROUND(AVG(percent_black)),
+      ROUND(AVG(percent_hispanic)),
+      ROUND(AVG(percent_asian)),
+      ROUND(AVG(percent_native)),
+      ROUND(AVG(percent_pacific)),
+      PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY income_per_capita ASC),
+      PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY income_per_capita ASC),
+      PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY income_per_capita ASC),
+      PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY unemployment_rate ASC),
+      PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY unemployment_rate ASC),
+      PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY unemployment_rate ASC),
+      PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY poverty ASC),
+      PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY poverty ASC),
+      PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY poverty ASC)
     FROM disaster d
     JOIN county c
     ON d.state_cleaned = c.state_cleaned AND d.cz_name_cleaned = c.name_cleaned
-    WHERE percent_${inputRace} > 50
-    GROUP BY d.event_type
-    ORDER BY num_counties DESC`;
-
-  // console.log(query);
+    WHERE event_type = '${inputType}'
+    `;
 
   connection.execute(query, function(err, rows, fields) {
     if (err) console.log(err);

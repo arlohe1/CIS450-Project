@@ -206,31 +206,25 @@ app.controller('countyController', function($scope, $http) {
 // Controller for the Census Page
 app.controller('censusController', function($scope, $http) {
    $http({
-    url: '/census',
+    url: '/censusEvents',
     method: 'GET'
   }).then(res => {
-    var data = ["white", "black", "hispanic", "asian", "native", "pacific"];
-    console.log(data);
-    //console.log("CENSUS: ", res.data);
-    //$scope.census = res.data;
-    $scope.races = data;
+    $scope.event_types = res.data;
+    console.log(res.data);
   }, err => {
     console.log("Census ERROR: ", err);
   });
 
-
-  $scope.showEvents = function(r) {
-  	$scope.r = r;
+  $scope.showEvents = function() {
     $http({
-      url: '/census/'+$scope.r,
-      method: 'GET'
-  }).then(res => {
-    console.log("Number of events affecting group " + $scope.r, res.data);
-    $scope.events = res.data;
-  }, err => {
-    console.log("CENSUS ERROR: ", err);
-  });
-	}
+        url: '/censusEvents/' + $scope.selectedEventType,
+        method: 'GET'
+    }).then(res => {
+      $scope.events = res.data;
+    }, err => {
+      console.log("CENSUS ERROR: ", err);
+    });
+  }
 });
 
 // app.controller('censusController', function($scope, $http) {

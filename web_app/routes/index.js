@@ -1,11 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var path = require('path');
-// var config = require('../db-config.js');
 
 /* ----- Connects to your mySQL database ----- */
 
 const oracledb = require('oracledb');
+oracledb.fetchAsString = [ oracledb.CLOB ];
+
 
 
 var connection;
@@ -50,6 +51,10 @@ router.get('/county', function(req, res) {
 /* ----- Bonus (Posters) ----- */
 router.get('/census', function(req, res) {
   res.sendFile(path.join(__dirname, '../', 'views', 'census.html'));
+});
+
+router.get('/episode', function(req, res) {
+  res.sendFile(path.join(__dirname, '../', 'views', 'episode.html'));
 });
 
 router.get('/reference', function(req, res) {
@@ -223,7 +228,6 @@ router.get('/filters/:filterData/:month/:sortCategory', function(req, res) {
 });
 
 
-
 router.get('/county/:countyName', function (req, res) {
   console.log("in index.js county")
 
@@ -253,9 +257,6 @@ router.get('/county/:countyName', function (req, res) {
     if (err) console.log(err);
     else {
       console.log(rows);
-      //console.log(query);
-      //console.log(err);
-      //console.log(fields);
       res.json(rows.rows);
     }
   });
@@ -273,8 +274,6 @@ router.get('/census/:r', function(req, res) {
     GROUP BY d.event_type
     ORDER BY num_counties DESC`;
 
-  // console.log(query);
-
   connection.execute(query, function(err, rows, fields) {
     if (err) console.log(err);
     else {
@@ -283,6 +282,40 @@ router.get('/census/:r', function(req, res) {
     }
   });
 });
+
+
+
+router.get('/episodeEvents', function(req, res) {
+  var ep_id = req.query.ep_id;
+  var query = `
+    SELECT D.*
+    FROM disaster D
+    WHERE D.episode_id=${ep_id}
+    ORDER BY D.event_id DESC`;
+
+  connection.execute(query, function(err, rows, fields) {
+    if (err) console.log(err);
+    else {
+      res.json(rows.rows);
+    }
+  });
+});
+
+router.get('/episodeNarrative', function(req, res) {
+  var ep_id = req.query.ep_id;
+  var query = `
+    SELECT EN.episode_narrative
+    FROM EpisodeNarrative EN
+    WHERE EN.episode_id=${ep_id}`;
+
+  connection.execute(query, function(err, rows, fields) {
+    if (err) console.log(err);
+    else {
+      res.json(rows.rows);
+    }
+  });
+});
+
 
 
 

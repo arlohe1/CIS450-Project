@@ -110,3 +110,28 @@ app.controller('censusController', function($scope, $http) {
   });
 	}
 });
+
+
+// Controller for the Episode Details Page
+app.controller('episodeController', function($scope,  $location, $http,) {
+  var queryParams = $location.search();
+  $http({
+    url: '/episodeEvents?ep_id='+queryParams.ep_id,
+    method: 'GET'
+  }).then(res => {
+    $scope.episodeID = queryParams.ep_id;
+    $scope.episodeEvents = res.data;
+  }, err => {
+    console.log("episodeController ERROR: ", err);
+  });
+
+   $http({
+    url: '/episodeNarrative?ep_id='+queryParams.ep_id,
+    method: 'GET'
+  }).then(res => {
+    $scope.episodeNarrative = res.data;
+  }, err => {
+    console.log("episodeController ERROR: ", err);
+  });
+
+});

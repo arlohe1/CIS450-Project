@@ -201,8 +201,26 @@ router.get('/dashboardSummary/topRegion', function(req, res) {
       res.json(rows.rows);
     }
   })
-})
+});
 
+
+router.get('/dashboardSummary/map', function(req, res) {
+
+  var query = `
+  SELECT D.state AS state, COUNT(*) AS count
+  FROM Disaster D INNER JOIN County C
+  ON D.state_cleaned = C.state_cleaned AND D.cz_name_cleaned = C.name_cleaned
+  GROUP BY D.state
+  ORDER BY count DESC`;
+
+  connection.execute(query, function (err, rows, fields) {
+    if (err) console.log("map", err);
+    else {
+      console.log(rows);
+      res.json(rows.rows);
+    }
+  })
+});
 
 /* ----- Q2 (Recommendations) ----- */
 

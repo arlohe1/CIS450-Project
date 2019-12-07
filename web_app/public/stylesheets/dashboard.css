@@ -1,10 +1,10 @@
 .summary {
   margin: 0 auto;
-  width: 80%;
-  height: 60%;
+  width: 90%;
+  height: 65%;
   margin-top: 5%;
   display: grid;
-  grid-template-columns: 33% auto 33%;
+  grid-template-columns: 33% auto 25%;
   grid-template-rows: 20% 20% 20% 20% 20%;
   align-content: space-around;
   grid-gap: 0.5rem;
@@ -27,15 +27,8 @@
   background-color: #f3f4f7;
 }
 
-.summary .item-4 {
-  background-color: white;
-  grid-column: 2;
-  grid-row: 3;
-  background-color: #f3f4f7;
-}
-
 .summary .item-5 {
-  padding: 10px;
+  padding: 15px;
   text-align: center;
   background-color: white;
   grid-column: 2;
@@ -43,17 +36,10 @@
   background-color: #f3f4f7;
 }
 
-.summary .item-6 {
-  background-color: white;
-  grid-column: 2;
-  grid-row: 2;
-  background-color: #f3f4f7;
-}
-
 .summary .item-7 {
   background-color: white;
   grid-column: 2;
-  grid-row: 4/span 2;
+  grid-row: 2/span 4;
   background-color: #f3f4f7;
 }
 
@@ -63,7 +49,7 @@
 }
 
 .summary .item-1 .text {
-  padding: 2px;
+  padding: 4px;
   text-align: center;
   font-size: 14px;
   line-height: 1.5em;
@@ -71,7 +57,23 @@
 }
 
 .summary .item-5 .text {
-  padding: 3px;
+  padding: 5px;
   text-align: center;
   font-size: 25px;
+}
+
+#mapid { height: 100%; }
+
+.info {
+    padding: 6px 8px;
+    font: 10px/12px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 3px;
+}
+.info h4 {
+    font-size: 15px;
+    margin: 0 0 5px;
+    color: #777;
 }

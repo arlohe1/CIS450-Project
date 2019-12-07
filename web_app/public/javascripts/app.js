@@ -4,13 +4,13 @@ var app = angular.module('angularjsNodejsTutorial', []);
  app.controller('dashboardController', function($scope, $http) {
    console.log("In app controller");
 
+   // Proportion of each race affected
    $http({
       url: '/dashboardSummary',
       method: 'GET'
     }).then(res => {
       console.log("DASHBOARD: ", res.data);
 
-      // Proportion of each race affected
       flat = [];
       for (var i = 0; i < res.data.length; i++) {
         flat = flat.concat(res.data[i]);
@@ -67,6 +67,116 @@ var app = angular.module('angularjsNodejsTutorial', []);
   };
   showTopRegion();
 
+  // Map with number of Disasters
+  $scope.showMap = function () {
+    $http({
+      url: '/dashboardSummary/map',
+      method: 'GET'
+    }).then(res => {
+
+      console.log(res.data);
+
+      // update statesData with query results
+      var states1 = [];
+      var states2 = [];
+      for (i = 0; i < statesData.features.length; i++) {
+        for (j = 0; j < res.data.length; j++) {
+          var state = res.data[j][0];
+          var count = res.data[j][1];
+
+          if (statesData.features[i].id == state) {
+            statesData.features[i].properties.density = count;
+          }
+        }
+      }
+
+      var mapboxAccessToken = 'pk.eyJ1IjoicmFjaGVsbHNtYWUiLCJhIjoiY2szdnJtdTMwMDFndzNybWphM3ZpMTN4MiJ9.HMczds7TOlaf86UaM4cp6g';
+      var map = L.map('mapid').setView([37.8, -96], 4);
+
+      L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=' + mapboxAccessToken, {
+          id: 'mapbox/light-v9'
+      }).addTo(map);
+
+      function getColor(d) {
+        return d > 2000 ? '#800026' :
+               d > 1500  ? '#BD0026' :
+               d > 1000  ? '#E31A1C' :
+               d > 500  ? '#FC4E2A' :
+               d > 250   ? '#FD8D3C' :
+               d > 100   ? '#FEB24C' :
+               d > 50   ? '#FED976' :
+                          '#FFEDA0';
+      }
+
+      function style(feature) {
+        return {
+            fillColor: getColor(feature.properties.density),
+            weight: 2,
+            opacity: 1,
+            color: 'white',
+            dashArray: '3',
+            fillOpacity: 0.7
+        };
+    }
+
+    function highlightFeature(e) {
+        var layer = e.target;
+
+        layer.setStyle({
+            weight: 5,
+            color: '#666',
+            dashArray: '',
+            fillOpacity: 0.7
+        });
+
+        if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+            layer.bringToFront();
+        }
+        info.update(layer.feature.properties);
+    }
+
+    function resetHighlight(e) {
+      geojson.resetStyle(e.target);
+      info.update();
+    }
+
+    function zoomToFeature(e) {
+      map.fitBounds(e.target.getBounds());
+    }
+
+    function onEachFeature(feature, layer) {
+      layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight,
+        click: zoomToFeature
+      });
+    }
+
+    geojson = L.geoJson(statesData, {
+        style: style,
+        onEachFeature: onEachFeature
+    }).addTo(map);
+
+    var info = L.control();
+    info.onAdd = function (map) {
+        this._div = L.DomUtil.create('div', 'info');
+        this.update();
+        return this._div;
+    };
+
+    info.update = function (props) {
+        this._div.innerHTML = '<h4>Number of Disasters</h4>' +  (props ?
+            '<b>' + props.name + '</b><br />' + props.density + ' events'
+            : 'Hover over a state');
+    };
+
+    info.addTo(map);
+
+
+    }, err => {
+      console.log("showMap ERROR", err);
+    })
+  };
 });
 
 

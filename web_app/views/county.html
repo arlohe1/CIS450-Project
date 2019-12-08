@@ -32,14 +32,14 @@ County<!DOCTYPE html>
 <div class="h2">County</div>
 <div class="search-container">
   <div class="jumbotron">
-    <div class="h5">Select a state and county (county is optional).</div>
+    <div class="h5">Select a State and County (County is optional).</div>
     <br>
     <div class="input-container">
       <div class="dropdown-container">
         <class="h4">State: </class>
         <select class="dropdown" id="statesDropdown" ng-model="selectedState" ng-options="s for s in states" ng-change="selectedStateChanged()"></select>
         <class="h4">County (optional): </class>
-        <select class="dropdown" id="countyDropdown" ng-model="selectedCounty" ng-options="c for c in counties"></select>
+        <select class="dropdown" id="countyDropdown" ng-model="selectedCounty" ng-options="c[0] for c in counties" style="text-transform:capitalize;"></select>
         <button class="submit-btn" id="countySubmitBtn" ng-click="submitCounty()">Submit</button>
       </div>
       <!-- <div class="input-container">

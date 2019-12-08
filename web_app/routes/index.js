@@ -209,18 +209,18 @@ router.get('/filters/:filterData/:month/:sortCategory', function(req, res) {
 
   if (filterData == "all events") {
     query = `
-    SELECT episode_id, event_type, state, cz_name, to_char(cast(begin_date as date),'MM-DD-YYYY'), 
+    SELECT episode_id, event_type, state, cz_name, to_char(cast(begin_date as date), 'Mon DD, YYYY'), 
       injuries_direct+injuries_indirect AS total_injuries,
       deaths_direct+deaths_indirect AS total_deaths, 
-      damage_property+damage_crops AS total_damages 
+      TO_CHAR(damage_property+damage_crops, '999,999,999,999') AS total_damages 
       FROM disaster d
     `;
   } else {
     query = `
-    SELECT episode_id, event_type, state, cz_name, to_char(cast(begin_date as date),'MM-DD-YYYY'), 
+    SELECT episode_id, event_type, state, cz_name, to_char(cast(begin_date as date),'Mon DD, YYYY'), 
       injuries_direct+injuries_indirect AS total_injuries,
       deaths_direct+deaths_indirect AS total_deaths, 
-      damage_property+damage_crops AS total_damages 
+      TO_CHAR(damage_property+damage_crops, '999,999,999,999') AS total_damages 
       FROM disaster d
       WHERE event_type='${filterData}'
     `;
@@ -313,8 +313,8 @@ router.get('/county/:selectedState/:selectedCounty', function (req, res) {
   SELECT
     state,
     cz_name,
-    to_char(cast(begin_date as date),'DD-MM-YYYY') AS begin_date,
-    to_char(cast(end_date as date),'DD-MM-YYYY') AS end_date,
+    to_char(cast(begin_date as date),'Mon DD, YYYY') AS begin_date,
+    to_char(cast(end_date as date),'Mon DD, YYYY') AS end_date,
     episode_id
   FROM disaster
   WHERE cz_name_cleaned = '${county}'
@@ -340,8 +340,8 @@ router.get('/county/:selectedState', function (req, res) {
   SELECT
     state,
     cz_name AS county,
-    to_char(cast(begin_date as date),'DD-MM-YYYY') AS begin_date,
-    to_char(cast(end_date as date),'DD-MM-YYYY') AS end_date,
+    to_char(cast(begin_date as date), 'Mon DD, YYYY') AS begin_date,
+    to_char(cast(end_date as date), 'Mon DD, YYYY') AS end_date,
     episode_id
   FROM disaster
   WHERE state_cleaned = '${state}'
@@ -455,7 +455,7 @@ router.get('/censusEvents/:selectedEventType', function(req, res) {
 router.get('/episodeEvents', function(req, res) {
   var ep_id = req.query.ep_id;
   var query = `
-    SELECT D.*
+    SELECT D.*, TO_CHAR(D.damage_property+D.damage_crops, '999,999,999,999') AS total_damages
     FROM disaster D
     WHERE D.episode_id=${ep_id}
     ORDER BY D.event_id ASC`;
@@ -465,7 +465,7 @@ router.get('/episodeEvents', function(req, res) {
     else {
       for(event of rows.rows) {
         event[3] = moment(event[3]).format("MMM DD, YYYY");
-        event[4]= moment(event[4]).format("MMM DD, YYYY");
+        event[4] = moment(event[4]).format("MMM DD, YYYY");
       }
       res.json(rows.rows);
     }

@@ -246,7 +246,7 @@ app.controller('countyController', function($scope, $http) {
     $scope.submitCounty = function() {
       if ($scope.selectedState != null && $scope.selectedCounty != null){
         $http({
-          url: '/county/' + $scope.selectedState + '/' + $scope.selectedCounty,
+          url: '/county/' + $scope.selectedState + '/' + $scope.selectedCounty[1],
           method: 'GET',
           responseType: 'text'
         }).then(res => {

@@ -36,7 +36,7 @@
         <!--<div class="h5">Races</div>-->
         <!-- Display the Races -->
           <div class="dropdown-container">
-            <select class="dropdown" id="typeDropdown" ng-model="selectedEventType" ng-options="e for e in event_types">
+            <select class="dropdown" id="typeDropdown" ng-model="selectedEventType" ng-options="e for e in event_types" style="text-transform:capitalize;">
             <option value="" selected="selected">Choose an event type</option>
           </select>
           <button class="submit-btn" id="typeSubmitBtn" ng-click="showEvents()">Submit</button>
@@ -120,15 +120,15 @@
       </div>
       <div class="black">
         <div class="header"><strong>25th Percentile</strong></div>
-        <div class="answers" ng-repeat="e in events">{{e[10]}}%</div>
+        <div class="answers" ng-repeat="e in events">{{e[12]}}%</div>
       </div>
       <div class="asian">
         <div class="header"><strong>50th Percentile</strong></div>
-        <div class="answers" ng-repeat="e in events">{{e[11]}}%</div>
+        <div class="answers" ng-repeat="e in events">{{e[13]}}%</div>
       </div>
       <div class="pacific">
         <div class="header"><strong>75th Percentile</strong></div>
-        <div class="answers" ng-repeat="e in events">{{e[12]}}%</div>
+        <div class="answers" ng-repeat="e in events">{{e[14]}}%</div>
       </div>
     </div>
   </div>

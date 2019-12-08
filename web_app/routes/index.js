@@ -1,12 +1,13 @@
 var express = require('express');
 var router = express.Router();
 var path = require('path');
-
-// var config = require('../db-config.js');
+var moment = require('moment');
 
 /* ----- Connects to your mySQL database ----- */
 
 const oracledb = require('oracledb');
+oracledb.fetchAsString = [oracledb.CLOB];
+
 
 
 var connection;
@@ -14,12 +15,12 @@ async function run() {
 
   try {
     pool = await oracledb.createPool({
-      user     : "hackerman",
-      password : "beepboop",
-      connectString : "cis450proj.c9gzklizhtyu.us-east-1.rds.amazonaws.com/cis450db"
-  });
+      user: "hackerman",
+      password: "beepboop",
+      connectString: "cis450proj.c9gzklizhtyu.us-east-1.rds.amazonaws.com/cis450db"
+    });
 
-  connection = await pool.getConnection();
+    connection = await pool.getConnection();
 
   } catch (err) {
     console.log(err);
@@ -42,23 +43,20 @@ router.get('/dashboard', function(req, res) {
   res.sendFile(path.join(__dirname, '../', 'views', 'dashboard.html'));
 });
 
-/* ----- Q2 (Recommendations) ----- */
 router.get('/search', function(req, res) {
   res.sendFile(path.join(__dirname, '../', 'views', 'search.html'));
 });
 
-/* ----- Q3 (Best Of Decades) ----- */
 router.get('/county', function(req, res) {
   res.sendFile(path.join(__dirname, '../', 'views', 'county.html'));
 });
 
-/* ----- Bonus (Posters) ----- */
 router.get('/census', function(req, res) {
   res.sendFile(path.join(__dirname, '../', 'views', 'census.html'));
 });
 
-router.get('/reference', function(req, res) {
-  res.sendFile(path.join(__dirname, '../', 'views', 'reference.html'));
+router.get('/episode', function(req, res) {
+  res.sendFile(path.join(__dirname, '../', 'views', 'episode.html'));
 });
 
 /* Template for a FILE request router:
@@ -78,20 +76,15 @@ router.get('<PATH>', function(req, res) {
 /* ------------------------------------------------ */
 /* ----- (Dashboard) ----- */
 router.get('/dashboardSummary', function(req, res) {
-  //var connection = pool.getConnection();
-  console.log("Inside dashboard route");
   var query = `
         SELECT event_id
         FROM Disaster
         WHERE ROWNUM <= 5
         ORDER BY damage_property DESC`;
-  console.log("after query variable");
   connection.execute(query, function(err, rows, fields) {
-    console.log("Reached connection query");
     if (err) {
-      console.log("Reached here: ", err);
-    }
-    else {
+      console.log("ERROR: ", err);
+    } else {
       console.log(rows);
       res.json(rows);
     }
@@ -100,20 +93,20 @@ router.get('/dashboardSummary', function(req, res) {
 
 /* ----- Search ----- */
 router.get('/filters', function(req, res) {
-  console.log("entered filters router");
-  var query = `
+    console.log("entered filters router");
+    var query = `
     SELECT DISTINCT event_type 
     FROM disaster d
     ORDER BY event_type
     `;
-  connection.execute(query, function(err, rows, fields) {
-  if (err) console.log(err);
-  else {
-    console.log(rows.rows);
-    res.json(rows.rows);
+    connection.execute(query, function(err, rows, fields) {
+      if (err) console.log(err);
+      else {
+        console.log(rows.rows);
+        res.json(rows.rows);
+      }
+    });
   }
-  });
-}
 
 );
 
@@ -138,9 +131,7 @@ router.get('/filters/:filterData/:month/:sortCategory', function(req, res) {
       damage_property+damage_crops AS total_damages 
       FROM disaster d
     `;
-  }
-
-  else {
+  } else {
     query = `
     SELECT episode_id, event_type, state, cz_name, to_char(cast(begin_date as date),'MM-DD-YYYY'), 
       injuries_direct+injuries_indirect AS total_injuries,
@@ -153,7 +144,7 @@ router.get('/filters/:filterData/:month/:sortCategory', function(req, res) {
 
   var lower;
   var upper;
-  switch(month){
+  switch (month) {
     case "January":
       lower = "JAN";
       upper = "FEB";
@@ -189,13 +180,12 @@ router.get('/filters/:filterData/:month/:sortCategory', function(req, res) {
 
   if (filterData == "all events") {
     query += ` WHERE begin_date >= '${"01-"+lower+"-19"}' AND end_date < '${"01-"+upper+"-19"}'`;
-  }
-  else {
+  } else {
     query += ` AND begin_date >= '${"01-"+lower+"-19"}' AND end_date < '${"01-"+upper+"-19"}'`;
   }
 
 
-  switch(sortCategory) {
+  switch (sortCategory) {
     case "Total Injuries":
       query += " ORDER BY total_injuries DESC";
       break;
@@ -217,7 +207,7 @@ router.get('/filters/:filterData/:month/:sortCategory', function(req, res) {
 
   console.log("final query, ", query);
 
-  connection.execute(query, function (err, rows, fields) {
+  connection.execute(query, function(err, rows, fields) {
     if (err) console.log(err);
     else {
       console.log(rows);
@@ -228,8 +218,7 @@ router.get('/filters/:filterData/:month/:sortCategory', function(req, res) {
 });
 
 
-
-router.get('/county/:countyName', function (req, res) {
+router.get('/county/:countyName', function(req, res) {
   console.log("in index.js county")
 
   var county = req.params.countyName;
@@ -254,13 +243,10 @@ router.get('/county/:countyName', function (req, res) {
 
   console.log(query);
 
-  connection.execute(query, function (err, rows, fields) {
+  connection.execute(query, function(err, rows, fields) {
     if (err) console.log(err);
     else {
       console.log(rows);
-      //console.log(query);
-      //console.log(err);
-      //console.log(fields);
       res.json(rows.rows);
     }
   });
@@ -268,7 +254,7 @@ router.get('/county/:countyName', function (req, res) {
 
 router.get('/census/:r', function(req, res) {
   var inputRace = req.params.r;
-    console.log(inputRace);
+  console.log(inputRace);
   var query = `
     SELECT d.event_type, COUNT(*) AS num_counties
     FROM disaster d
@@ -277,8 +263,6 @@ router.get('/census/:r', function(req, res) {
     WHERE percent_${inputRace} > 50
     GROUP BY d.event_type
     ORDER BY num_counties DESC`;
-
-  // console.log(query);
 
   connection.execute(query, function(err, rows, fields) {
     if (err) console.log(err);
@@ -291,8 +275,40 @@ router.get('/census/:r', function(req, res) {
 
 
 
-/* ----- Bonus (Posters) ----- */
+router.get('/episodeEvents', function(req, res) {
+  var ep_id = req.query.ep_id;
+  var query = `
+    SELECT D.*
+    FROM disaster D
+    WHERE D.episode_id=${ep_id}
+    ORDER BY D.event_id ASC`;
 
+  connection.execute(query, function(err, rows, fields) {
+    if (err) console.log(err);
+    else {
+      for(event of rows.rows) {
+        event[3] = moment(event[3]).format("MMM DD, YYYY");
+        event[4]= moment(event[4]).format("MMM DD, YYYY");
+      }
+      res.json(rows.rows);
+    }
+  });
+});
+
+router.get('/episodeNarrative', function(req, res) {
+  var ep_id = req.query.ep_id;
+  var query = `
+    SELECT EN.episode_narrative
+    FROM EpisodeNarrative EN
+    WHERE EN.episode_id=${ep_id}`;
+
+  connection.execute(query, function(err, rows, fields) {
+    if (err) console.log(err);
+    else {
+      res.json(rows.rows);
+    }
+  });
+});
 
 
 /* General Template for GET requests:

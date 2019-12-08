@@ -322,5 +322,30 @@ app.controller('episodeController', function($scope, $location, $http, ) {
   }, err => {
     console.log("episodeController ERROR: ", err);
   });
+});
+
+
+// Controller for the Event Details Page
+app.controller('eventController', function($scope, $location, $http, ) {
+  var queryParams = $location.search();
+  $http({
+    url: '/eventDetails?event_id=' + queryParams.event_id,
+    method: 'GET'
+  }).then(res => {
+    $scope.eventID = queryParams.event_id;
+    $scope.events = res.data;
+  }, err => {
+    console.log("eventController ERROR: ", err);
+  });
+
+  $http({
+    url: '/eventNarrative?event_id=' + queryParams.event_id,
+    method: 'GET'
+  }).then(res => {
+    $scope.eventNarrative = res.data;
+  }, err => {
+    console.log("eventController ERROR: ", err);
+  });
 
 });
+

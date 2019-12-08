@@ -15,7 +15,7 @@
     <!-- Include your custom css file here if you're making one -->
   </head>
 
-  <body ng-controller="episodeController">
+  <body ng-controller="eventController">
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-custom">
       <span class="navbar-brand center">Disaster Demographics</span>
@@ -30,17 +30,16 @@
     </nav>
 
   </br>
-  <div class="h2">Episode Details</div>
+  <div class="h2">Event Details</div>
 </div>
   <div class="events-container">
     <div class="jumbotron">
-      <p>Displaying all events for the episode: {{episodeID}}</p>
-      <h6>Episode Narrative</h6>
-      <p>{{episodeNarrative[0][0]}}</p>
+      <p>Displaying all information for the event: {{eventID}}</p>
+      <h6>Event Narrative</h6>
+      <p>{{eventNarrative[0][0]}}</p>
       <h6>Events</h6>
-      <table id="weatherEvents" style="text-transform:capitalize; width:100%; table-layout: fixed; word-wrap: break-word;">
+      <table id="eventInformation" style="text-transform:capitalize; width:100%; table-layout: fixed; word-wrap: break-word;">
         <tr>
-          <th>Event ID</th>
           <th>Event Type</th>
           <th>County</th>
           <th>State</th>
@@ -51,8 +50,7 @@
           <th>Total Deaths</th>
           <th>Source</th>
         </tr>
-        <tr ng-repeat="event in episodeEvents">
-          <td><a href="/event#?event_id={{event[0]}}">{{event[0]}}</a></td>
+        <tr ng-repeat="event in events">
           <td>{{event[2]}}</td>
           <td>{{event[8]}}</td>
           <td>{{event[5]}}</td>

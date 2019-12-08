@@ -59,6 +59,10 @@ router.get('/episode', function(req, res) {
   res.sendFile(path.join(__dirname, '../', 'views', 'episode.html'));
 });
 
+router.get('/event', function(req, res) {
+  res.sendFile(path.join(__dirname, '../', 'views', 'event.html'));
+});
+
 /* Template for a FILE request router:
 
 Specifies that when the app recieves a GET request at <PATH>,
@@ -212,7 +216,7 @@ router.get('/filters/:filterData/:month/:sortCategory', function(req, res) {
     SELECT episode_id, event_type, state, cz_name, to_char(cast(begin_date as date), 'Mon DD, YYYY'), 
       injuries_direct+injuries_indirect AS total_injuries,
       deaths_direct+deaths_indirect AS total_deaths, 
-      TO_CHAR(damage_property+damage_crops, '999,999,999,999') AS total_damages
+      TO_CHAR(damage_property+damage_crops, '999,999,999,999') AS total_damages, event_id
       FROM disaster d
     `;
   } else {
@@ -220,7 +224,7 @@ router.get('/filters/:filterData/:month/:sortCategory', function(req, res) {
     SELECT episode_id, event_type, state, cz_name, to_char(cast(begin_date as date),'Mon DD, YYYY'), 
       injuries_direct+injuries_indirect AS total_injuries,
       deaths_direct+deaths_indirect AS total_deaths, 
-      TO_CHAR(damage_property+damage_crops, '999,999,999,999') AS total_damages 
+      TO_CHAR(damage_property+damage_crops, '999,999,999,999') AS total_damages, event_id
       FROM disaster d
       WHERE event_type='${filterData}'
     `;
@@ -381,7 +385,7 @@ router.get('/countyQuery/:selectedState', function (req, res) {
   var state = req.params.selectedState;
   console.log("Param in countyQuery state", state);
   var query = `
-    SELECT name
+    SELECT name, name_cleaned
     FROM County
     WHERE state = '${state}'
     ORDER BY name
@@ -478,6 +482,42 @@ router.get('/episodeNarrative', function(req, res) {
     SELECT EN.episode_narrative
     FROM EpisodeNarrative EN
     WHERE EN.episode_id=${ep_id}`;
+
+  connection.execute(query, function(err, rows, fields) {
+    if (err) console.log(err);
+    else {
+      res.json(rows.rows);
+    }
+  });
+});
+
+router.get('/eventDetails', function(req, res) {
+  var event_id = req.query.event_id;
+  var query = `
+    SELECT D.*, TO_CHAR(D.damage_property+D.damage_crops, '999,999,999,999') AS total_damages
+    FROM disaster D
+    WHERE D.event_id=${event_id}
+    ORDER BY D.event_id ASC`;
+
+  connection.execute(query, function(err, rows, fields) {
+    if (err) console.log(err);
+    else {
+      for(event of rows.rows) {
+        event[3] = moment(event[3]).format("MMM DD, YYYY");
+        event[4] = moment(event[4]).format("MMM DD, YYYY");
+      }
+      res.json(rows.rows);
+    }
+  });
+});
+
+
+router.get('/eventNarrative', function(req, res) {
+  var event_id = req.query.event_id;
+  var query = `
+    SELECT EN.event_narrative
+    FROM EventNarrative EN
+    WHERE EN.event_id=${event_id}`;
 
   connection.execute(query, function(err, rows, fields) {
     if (err) console.log(err);

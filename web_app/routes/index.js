@@ -34,6 +34,10 @@ run();
 /* ----- Routers to handle FILE requests ----- */
 /* ------------------------------------------- */
 
+app.get('/', function(req, res){
+  res.redirect('/dashboard');
+});
+
 router.get('/dashboard', function(req, res) {
   res.sendFile(path.join(__dirname, '../', 'views', 'dashboard.html'));
 });

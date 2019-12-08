@@ -1,5 +1,26 @@
 .jumbotron{
   background-color: transparent;
+  text-align: center;
+}
+
+.submit-btn {
+  margin-left: 10px;
+  width: 100px;
+  height: 36px;
+  border: none;
+  padding: 2px 16px;
+  box-sizing: border-box;
+  border-radius: 20px;
+  outline: none;
+  /* background: #1E5372; */
+  background: white;
+  color: black;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.submit-btn:hover {
+  background: #c561ae;
 }
 
 .race-boxes {
@@ -17,7 +38,8 @@
 }
 
  .race-boxes .race {
-  flex: 1 0 20%;
+  font-size: 10pt;
+  flex: 1 10%;
   margin: 5px 0;
   padding: 10px;
   cursor: pointer;
@@ -28,12 +50,13 @@
   justify-content: center;
   align-items: center;
   height: 40px;
-  color: white;
+  width: 90%;
+  color: black;
   text-align: center;
 }
 
 .race-boxes .race:hover {
-  color: black;
+  color: blue;
 }
 
 .race-container {
@@ -44,8 +67,8 @@
   justify-content: flex-start;
   background-color: white;
   display: grid;
-  grid-column-gap: 50px;
-  grid-template-columns: 0.5fr 1fr 1fr;
+  grid-column-gap: 20px;
+  grid-template-columns: 3.5fr 1fr 1fr 1fr 1fr 1fr 1fr;
   border-radius: 10px;
   border: 25px solid #fff;
   /*margin-top: 0px;*/
@@ -71,18 +94,49 @@
   background: white;
   flex-flow: row wrap;
   grid-column: 1;
+  text-align: left;
 }
 
-.race-container .event-type {
+.race-container .white {
   background: white;
   justify-self: left;
   grid-column: 2;
+  font-size: 15pt;
 }
 
-.race-container .count-counties {
+.race-container .black {
   background: white;
   justify-self: left;
   grid-column: 3;
+  font-size: 15pt;
+}
+
+.race-container .hispanic {
+  background: white;
+  justify-self: left;
+  grid-column: 4;
+  font-size: 15pt;
+}
+
+.race-container .asian {
+  background: white;
+  justify-self: left;
+  grid-column: 5;
+  font-size: 15pt;
+}
+
+.race-container .native {
+  background: white;
+  justify-self: left;
+  grid-column: 6;
+  font-size: 15pt;
+}
+
+.race-container .pacific{
+  background: white;
+  justify-self: left;
+  grid-column: 7;
+  font-size: 15pt;
 }
 
 .race .event, .race .header-lg {
@@ -98,6 +152,7 @@
 }
 
 .answers {
-  font-size: 14px;
+  padding-top: 15px;
+  font-size: 15pt;
   line-height: 1.5em;
 }

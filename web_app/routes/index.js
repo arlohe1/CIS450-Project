@@ -76,20 +76,104 @@ router.get('<PATH>', function(req, res) {
 /* ------------------------------------------------ */
 /* ----- (Dashboard) ----- */
 router.get('/dashboardSummary', function(req, res) {
+
   var query = `
-        SELECT event_id
-        FROM Disaster
-        WHERE ROWNUM <= 5
-        ORDER BY damage_property DESC`;
-  connection.execute(query, function(err, rows, fields) {
-    if (err) {
-      console.log("ERROR: ", err);
-    } else {
+  SELECT white_total/total * 100.0 AS percent_white, hispanic_total/total * 100.0 AS percent_hispanic,
+  black_total/total * 100.0 AS percent_black, native_total/total * 100.0 AS percent_native, asian_total/total * 100.0 AS percent_asian,
+  pacific_total/total * 100.0 AS percent_pacific FROM
+    (SELECT T.*, white_total + hispanic_total + black_total + native_total + asian_total + pacific_total AS total
+    FROM
+        (SELECT SUM(white) AS white_total, SUM(hispanic) AS hispanic_total, SUM(black) AS black_total,
+        SUM(native) AS native_total, SUM(asian) AS asian_total, SUM(pacific) AS pacific_total
+        FROM
+            (SELECT D.state AS state, D.cz_name AS county, C.percent_white * C.total_pop AS white,
+            C.percent_hispanic * C.total_pop AS hispanic,
+            C.percent_black * C.total_pop AS black,
+            C.percent_native * C.total_pop AS native,
+            C.percent_asian * C.total_pop AS asian,
+            C.percent_pacific * C.total_pop AS pacific
+            FROM Disaster D INNER JOIN County C
+            ON D.state_cleaned = C.state_cleaned AND D.cz_name_cleaned = C.name_cleaned
+            GROUP BY D.state, D.cz_name, C.percent_white, C.percent_hispanic, C.percent_black, C.percent_native, C.percent_asian,
+            C.percent_pacific, C.total_pop
+            ORDER BY D.cz_name)
+        ) T
+    )`;
+
+  connection.execute(query, function (err, rows, fields) {
+    if (err) console.log("In index.js error", err);
+    else {
       console.log(rows);
-      res.json(rows);
+      res.json(rows.rows);
     }
   });
 });
+
+
+router.get('/dashboardSummary/topEvents', function(req, res) {
+
+  var query = `
+    SELECT event_type, ROUND(damage_property/1000000) FROM
+      (SELECT event_type, damage_property
+       FROM
+        (SELECT event_type, SUM(damage_property) AS damage_property
+         FROM Disaster
+         GROUP BY event_type)
+       ORDER BY damage_property DESC)
+    WHERE ROWNUM <= 5`;
+
+  console.log(query);
+  connection.execute(query, function (err, rows, fields) {
+    if (err) console.log("In index.js error", err);
+    else {
+      res.json(rows.rows);
+    }
+  })
+});
+    
+    
+router.get('/dashboardSummary/topRegion', function(req, res) {
+
+  var query = `
+  WITH T AS
+    (SELECT D.state AS state, D.cz_name AS county, COUNT(*) AS count
+    FROM Disaster D INNER JOIN County C
+    ON D.state_cleaned = C.state_cleaned AND D.cz_name_cleaned = C.name_cleaned
+    GROUP BY D.state, D.cz_name
+    ORDER BY count DESC)
+  SELECT state, county, count
+  FROM T
+  WHERE count = (SELECT MAX(count)
+  FROM T)`;
+
+  connection.execute(query, function (err, rows, fields) {
+    if (err) console.log("topRegion", err);
+    else {
+      console.log(rows);
+      res.json(rows.rows);
+    }
+  })
+});
+
+
+router.get('/dashboardSummary/map', function(req, res) {
+
+  var query = `
+  SELECT D.state AS state, COUNT(*) AS count
+  FROM Disaster D INNER JOIN County C
+  ON D.state_cleaned = C.state_cleaned AND D.cz_name_cleaned = C.name_cleaned
+  GROUP BY D.state
+  ORDER BY count DESC`;
+
+  connection.execute(query, function (err, rows, fields) {
+    if (err) console.log("map", err);
+    else {
+      console.log(rows);
+      res.json(rows.rows);
+    }
+  })
+});
+    
 
 /* ----- Search ----- */
 router.get('/filters', function(req, res) {
@@ -217,6 +301,8 @@ router.get('/filters/:filterData/:month/:sortCategory', function(req, res) {
 
 });
 
+
+/* ----- County ----- */
 router.get('/county/:selectedState/:selectedCounty', function (req, res) {
   var county = req.params.selectedCounty.toLowerCase().replace(/\s+/g, '');
   var state = req.params.selectedState.toLowerCase().replace(/\s+/g, '');
@@ -310,17 +396,14 @@ router.get('/countyQuery/:selectedState', function (req, res) {
   });
 });
 
-router.get('/census/:r', function(req, res) {
-  var inputRace = req.params.r;
-  console.log(inputRace);
+
+/* ----- Census ----- */
+router.get('/censusEvents', function(req, res) {
   var query = `
-    SELECT d.event_type, COUNT(*) AS num_counties
-    FROM disaster d
-    JOIN county c
-    ON d.state_cleaned = c.state_cleaned AND d.cz_name_cleaned = c.name_cleaned
-    WHERE percent_${inputRace} > 50
-    GROUP BY d.event_type
-    ORDER BY num_counties DESC`;
+    SELECT event_type
+    FROM disaster
+    GROUP BY event_type
+    ORDER BY event_type`;
 
   connection.execute(query, function(err, rows, fields) {
     if (err) console.log(err);
@@ -332,6 +415,43 @@ router.get('/census/:r', function(req, res) {
 });
 
 
+router.get('/censusEvents/:selectedEventType', function(req, res) {
+  var inputType = req.params.selectedEventType;
+  console.log('this is input', inputType);
+  var query = `
+    SELECT
+      ROUND(AVG(percent_white)),
+      ROUND(AVG(percent_black)),
+      ROUND(AVG(percent_hispanic)),
+      ROUND(AVG(percent_asian)),
+      ROUND(AVG(percent_native)),
+      ROUND(AVG(percent_pacific)),
+      PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY income_per_capita ASC),
+      PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY income_per_capita ASC),
+      PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY income_per_capita ASC),
+      PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY unemployment_rate ASC),
+      PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY unemployment_rate ASC),
+      PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY unemployment_rate ASC),
+      PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY poverty ASC),
+      PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY poverty ASC),
+      PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY poverty ASC)
+    FROM disaster d
+    JOIN county c
+    ON d.state_cleaned = c.state_cleaned AND d.cz_name_cleaned = c.name_cleaned
+    WHERE event_type = '${inputType}'
+    `;
+
+  connection.execute(query, function(err, rows, fields) {
+    if (err) console.log(err);
+    else {
+      console.log(rows);
+      res.json(rows.rows);
+    }
+  });
+});
+
+
+/* ----- Episodes ----- */
 router.get('/episodeEvents', function(req, res) {
   var ep_id = req.query.ep_id;
   var query = `

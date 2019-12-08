@@ -35,31 +35,105 @@
       <div class="jumbotron">
         <!--<div class="h5">Races</div>-->
         <!-- Display the Races -->
-        <div class="race-boxes">
-          <div class="race" ng-repeat="r in races" ng-click="showEvents(r)" id="{{'button-' + c}}">
-            {{r}}
-          </div>
+          <div class="dropdown-container">
+            <select class="dropdown" id="typeDropdown" ng-model="selectedEventType" ng-options="e for e in event_types">
+            <option value="" selected="selected">Choose an event type</option>
+          </select>
+          <button class="submit-btn" id="typeSubmitBtn" ng-click="showEvents()">Submit</button>
         </div>
-          </div>
         </div>
       </div>
 
-      <br>
       <div class="jumbotron">
         <div class="race-container">
           <div class="left-half">
-          <div class="question">What events affected residents in counties predominant in this race?</div>
+          <div class="question">What's the average <font color="#c561ae">ethnic breakdown</font> of counties affected by this event type?</div>
           </div>
-          <div class="event-type">
-            <div class="header"><strong>Event Type</strong></div>
-            <div class="answers" style="text-transform:capitalize" ng-repeat="e in events">{{e[0]}}</div>
+          <div class="white">
+            <div class="header"><strong>White</strong></div>
+            <div class="answers" ng-repeat="e in events">{{e[0]}}%</div>
           </div>
-          <div class="count-counties">
-            <div class="header"><strong>Number of Counties</strong></div>
-            <div class="answers" ng-repeat="e in events">{{e[1]}}</div>
+          <div class="black">
+            <div class="header"><strong>Black</strong></div>
+            <div class="answers" ng-repeat="e in events">{{e[1]}}%</div>
+          </div>
+          <div class="hispanic">
+            <div class="header"><strong>Hispanic</strong></div>
+            <div class="answers" ng-repeat="e in events">{{e[2]}}%</div>
+          </div>
+          <div class="asian">
+            <div class="header"><strong>Asian</strong></div>
+            <div class="answers" ng-repeat="e in events">{{e[3]}}%</div>
+          </div>
+          <div class="native">
+            <div class="header"><strong>Native</strong></div>
+            <div class="answers" ng-repeat="e in events">{{e[4]}}%</div>
+          </div>
+          <div class="pacific">
+            <div class="header"><strong>Pacific</strong></div>
+            <div class="answers" ng-repeat="e in events">{{e[5]}}%</div>
           </div>
         </div>
+
+      </br>
+        <div class="race-container">
+          <div class="left-half">
+          <div class="question">What's the <font color="#c561ae">income per capita</font> of counties affected by this event type?</div>
+          </div>
+          <div class="black">
+            <div class="header"><strong>25th Percentile</strong></div>
+            <div class="answers" ng-repeat="e in events">${{e[6]}}</div>
+          </div>
+          <div class="asian">
+            <div class="header"><strong>50th Percentile</strong></div>
+            <div class="answers" ng-repeat="e in events">${{e[7]}}</div>
+          </div>
+          <div class="pacific">
+            <div class="header"><strong>75th Percentile</strong></div>
+            <div class="answers" ng-repeat="e in events">${{e[8]}}</div>
+          </div>
+        </div>
+
+    </br>
+      <div class="race-container">
+        <div class="left-half">
+        <div class="question">What's the <font color="#c561ae">unemployment rate</font> of counties affected by this event type?</div>
+        </div>
+        <div class="black">
+          <div class="header"><strong>25th Percentile</strong></div>
+          <div class="answers" ng-repeat="e in events">{{e[9]}}%</div>
+        </div>
+        <div class="asian">
+          <div class="header"><strong>50th Percentile</strong></div>
+          <div class="answers" ng-repeat="e in events">{{e[10]}}%</div>
+        </div>
+        <div class="pacific">
+          <div class="header"><strong>75th Percentile</strong></div>
+          <div class="answers" ng-repeat="e in events">{{e[11]}}%</div>
+        </div>
       </div>
+
+  </br>
+    <div class="race-container">
+      <div class="left-half">
+      <div class="question">What's the <font color="#c561ae">poverty rate</font> of counties affected by this event type?</div>
+      </div>
+      <div class="black">
+        <div class="header"><strong>25th Percentile</strong></div>
+        <div class="answers" ng-repeat="e in events">{{e[10]}}%</div>
+      </div>
+      <div class="asian">
+        <div class="header"><strong>50th Percentile</strong></div>
+        <div class="answers" ng-repeat="e in events">{{e[11]}}%</div>
+      </div>
+      <div class="pacific">
+        <div class="header"><strong>75th Percentile</strong></div>
+        <div class="answers" ng-repeat="e in events">{{e[12]}}%</div>
+      </div>
+    </div>
+  </div>
+    </div>
+  </div>
 
 
     <!-- Include these before the end of body tag in every HTML file -->

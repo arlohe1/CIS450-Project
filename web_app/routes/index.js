@@ -126,12 +126,54 @@ router.get('/dashboardSummary/topEvents', function(req, res) {
   connection.execute(query, function (err, rows, fields) {
     if (err) console.log("In index.js error", err);
     else {
+      res.json(rows.rows);
+    }
+  })
+});
+    
+    
+router.get('/dashboardSummary/topRegion', function(req, res) {
+
+  var query = `
+  WITH T AS
+    (SELECT D.state AS state, D.cz_name AS county, COUNT(*) AS count
+    FROM Disaster D INNER JOIN County C
+    ON D.state_cleaned = C.state_cleaned AND D.cz_name_cleaned = C.name_cleaned
+    GROUP BY D.state, D.cz_name
+    ORDER BY count DESC)
+  SELECT state, county, count
+  FROM T
+  WHERE count = (SELECT MAX(count)
+  FROM T)`;
+
+  connection.execute(query, function (err, rows, fields) {
+    if (err) console.log("topRegion", err);
+    else {
       console.log(rows);
       res.json(rows.rows);
     }
-  });
-
+  })
 });
+
+
+router.get('/dashboardSummary/map', function(req, res) {
+
+  var query = `
+  SELECT D.state AS state, COUNT(*) AS count
+  FROM Disaster D INNER JOIN County C
+  ON D.state_cleaned = C.state_cleaned AND D.cz_name_cleaned = C.name_cleaned
+  GROUP BY D.state
+  ORDER BY count DESC`;
+
+  connection.execute(query, function (err, rows, fields) {
+    if (err) console.log("map", err);
+    else {
+      console.log(rows);
+      res.json(rows.rows);
+    }
+  })
+});
+    
 
 /* ----- Search ----- */
 router.get('/filters', function(req, res) {
@@ -260,49 +302,7 @@ router.get('/filters/:filterData/:month/:sortCategory', function(req, res) {
 });
 
 
-router.get('/dashboardSummary/topRegion', function(req, res) {
-
-  var query = `
-  WITH T AS
-    (SELECT D.state AS state, D.cz_name AS county, COUNT(*) AS count
-    FROM Disaster D INNER JOIN County C
-    ON D.state_cleaned = C.state_cleaned AND D.cz_name_cleaned = C.name_cleaned
-    GROUP BY D.state, D.cz_name
-    ORDER BY count DESC)
-  SELECT state, county, count
-  FROM T
-  WHERE count = (SELECT MAX(count)
-  FROM T)`;
-
-  connection.execute(query, function (err, rows, fields) {
-    if (err) console.log("topRegion", err);
-    else {
-      console.log(rows);
-      res.json(rows.rows);
-    }
-  })
-});
-
-
-router.get('/dashboardSummary/map', function(req, res) {
-
-  var query = `
-  SELECT D.state AS state, COUNT(*) AS count
-  FROM Disaster D INNER JOIN County C
-  ON D.state_cleaned = C.state_cleaned AND D.cz_name_cleaned = C.name_cleaned
-  GROUP BY D.state
-  ORDER BY count DESC`;
-
-  connection.execute(query, function (err, rows, fields) {
-    if (err) console.log("map", err);
-    else {
-      console.log(rows);
-      res.json(rows.rows);
-    }
-  })
-});
-
-
+/* ----- County ----- */
 router.get('/county/:selectedState/:selectedCounty', function (req, res) {
   var county = req.params.selectedCounty.toLowerCase().replace(/\s+/g, '');
   var state = req.params.selectedState.toLowerCase().replace(/\s+/g, '');
@@ -397,6 +397,7 @@ router.get('/countyQuery/:selectedState', function (req, res) {
 });
 
 
+/* ----- Census ----- */
 router.get('/censusEvents', function(req, res) {
   var query = `
     SELECT event_type
@@ -417,7 +418,6 @@ router.get('/censusEvents', function(req, res) {
 router.get('/censusEvents/:selectedEventType', function(req, res) {
   var inputType = req.params.selectedEventType;
   console.log('this is input', inputType);
-
   var query = `
     SELECT
       ROUND(AVG(percent_white)),
@@ -451,6 +451,7 @@ router.get('/censusEvents/:selectedEventType', function(req, res) {
 });
 
 
+/* ----- Episodes ----- */
 router.get('/episodeEvents', function(req, res) {
   var ep_id = req.query.ep_id;
   var query = `

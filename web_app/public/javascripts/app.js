@@ -296,7 +296,6 @@ app.controller('censusController', function($scope, $http) {
   }
 });
 
-
 // Controller for the Episode Details Page
 app.controller('episodeController', function($scope, $location, $http, ) {
   var queryParams = $location.search();

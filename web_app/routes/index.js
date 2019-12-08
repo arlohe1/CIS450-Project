@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var path = require('path');
+
 // var config = require('../db-config.js');
 
 /* ----- Connects to your mySQL database ----- */

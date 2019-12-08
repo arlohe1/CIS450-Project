@@ -1,0 +1,31 @@
+{
+  "name": "cis450-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arlohe1/CIS450-Project.git"
+  },
+  "dependencies": {
+    "body-parser": "~1.17.1",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.3",
+    "express": "~4.15.2",
+    "jade": "~1.11.0",
+    "moment": "^2.24.0",
+    "morgan": "~1.8.1",
+    "mysql": "^2.14.1",
+    "nodemon": "^1.19.2",
+    "serve-favicon": "~2.4.2"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arlohe1/CIS450-Project/issues"
+  },
+  "homepage": "https://github.com/arlohe1/CIS450-Project#readme"
+}

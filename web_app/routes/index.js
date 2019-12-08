@@ -35,6 +35,10 @@ run();
 /* ----- Routers to handle FILE requests ----- */
 /* ------------------------------------------- */
 
+router.get('/', function(req, res){
+  res.redirect('/dashboard');
+});
+
 router.get('/dashboard', function(req, res) {
   res.sendFile(path.join(__dirname, '../', 'views', 'dashboard.html'));
 });
@@ -326,7 +330,6 @@ router.get('/census/:r', function(req, res) {
     }
   });
 });
-
 
 
 router.get('/episodeEvents', function(req, res) {

@@ -44,8 +44,15 @@ app.use(function(err, req, res, next) {
 
 });
 
-app.listen('8081', function() {
+// app.listen('8081', function() {
+//   console.log('Server running on port 8081');
+// });
+
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 8081;
   console.log('Server running on port 8081');
-});
+}
+app.listen(port);
 
 module.exports = app;

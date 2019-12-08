@@ -1,4 +1,5 @@
 var app = angular.module('angularjsNodejsTutorial', []);
+var mapboxAccessToken = 'pk.eyJ1IjoicmFjaGVsbHNtYWUiLCJhIjoiY2szdnJtdTMwMDFndzNybWphM3ZpMTN4MiJ9.HMczds7TOlaf86UaM4cp6g';
 
 // Controller for the Dashboard Page
  app.controller('dashboardController', function($scope, $http) {
@@ -90,7 +91,6 @@ var app = angular.module('angularjsNodejsTutorial', []);
         }
       }
 
-      var mapboxAccessToken = 'pk.eyJ1IjoicmFjaGVsbHNtYWUiLCJhIjoiY2szdnJtdTMwMDFndzNybWphM3ZpMTN4MiJ9.HMczds7TOlaf86UaM4cp6g';
       var map = L.map('mapid').setView([37.8, -96], 4);
 
       L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=' + mapboxAccessToken, {

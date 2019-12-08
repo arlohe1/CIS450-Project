@@ -34,7 +34,7 @@ run();
 /* ----- Routers to handle FILE requests ----- */
 /* ------------------------------------------- */
 
-app.get('/', function(req, res){
+router.get('/', function(req, res){
   res.redirect('/dashboard');
 });
 

@@ -33,11 +33,7 @@ var mapboxAccessToken = 'pk.eyJ1IjoicmFjaGVsbHNtYWUiLCJhIjoiY2szdnJtdTMwMDFndzNy
             }
           }
       });
-    }, err => {
-      console.log("Dashboard ERROR: ", err);
-    });
-
-
+     
    // Top event types affecting people
    var showTopEvents = function() {
       $http({
@@ -182,24 +178,107 @@ var mapboxAccessToken = 'pk.eyJ1IjoicmFjaGVsbHNtYWUiLCJhIjoiY2szdnJtdTMwMDFndzNy
 
 // Controller for the Search Page
 app.controller('searchController', function($scope, $http) {
-  // TODO: Q2
-});
+  $http({
+    url: '/filters',
+    method: 'GET'
+  }).then(res => {
+    console.log("Filters: ", res.data);
+    res.data.unshift(["all events"])
+    $scope.eventTypes = res.data;
+    console.log("all added, ", $scope.eventTypes);
+  }, err => {
+    console.log("Filters ERROR: ", err);
+  });
+
+  var months = ["All", "January", "February", "March", "April", "May", "June", "July"];
+  var sortCategories = ["Begin Date", "Total Injuries", "Total Deaths", "Total Damages"];
+
+  $scope.months = months;
+  $scope.sortCategories = sortCategories;
+
+  $scope.submitEventType = function() {
+    console.log("selected event: ", $scope.selectedEventType);
+    console.log("selected month: ", $scope.selectedMonth);
+    console.log("selected sort category", $scope.selectedCategory);
+    $http({
+      url: '/filters/' + $scope.selectedEventType + '/' + $scope.selectedMonth + '/' + $scope.selectedCategory,
+      method: 'GET'
+    }).then(res => {
+      console.log("Selected in this event type " + $scope.selectedEventType, res.data);
+      $scope.weatherEvents = res.data;
+    }, err => {
+      console.log("weather events ERROR: ", err);
+    }
+  });
 
 // Controller for the County Page
+// app.controller('countyController', function($scope, $http) {
+//   $scope.submitIds = function() {
+//     $http({
+//       url: '/county/' + $scope.countyName,
+//       method: 'GET',
+//       responseType: 'text'
+//     }).then(res => {
+//       //console.log(data)
+//       console.log("DESC in county: ", res.data);
+//       $scope.countyDesc = res.data;
+//     }, err => {
+//       console.log("County ERROR: ", err);
+//     });
+//   }
+// });
+
 app.controller('countyController', function($scope, $http) {
-  $scope.submitIds = function() {
+  console.log('outside in app.js');
+  $http({
+    url: '/countyQuery',
+    method: 'GET'
+  }).then(res => {
+    console.log("STATES: ", res.data);
+    $scope.states = res.data;
+  }, err => {
+    console.log("STATES ERROR: ", err);
+  });
+
+  $scope.selectedStateChanged = function(){
+    console.log("Selected state: ", $scope.selectedState[0]);
     $http({
-      url: '/county/' + $scope.countyName,
-      method: 'GET',
-      responseType: 'text'
+      url: '/countyQuery/' + $scope.selectedState[0],
+      method: 'GET'
     }).then(res => {
-      //console.log(data)
-      console.log("DESC in county: ", res.data);
-      $scope.countyDesc = res.data;
+      console.log("COUNTIES: ", res.data);
+      $scope.counties = res.data;
     }, err => {
-      console.log("County ERROR: ", err);
+      console.log("COUNTIES ERROR: ", err);
     });
   }
+
+    $scope.submitCounty = function() {
+      if ($scope.selectedState != null && $scope.selectedCounty != null){
+        $http({
+          url: '/county/' + $scope.selectedState + '/' + $scope.selectedCounty,
+          method: 'GET',
+          responseType: 'text'
+        }).then(res => {
+          console.log("DESC in county: ", res.data);
+          $scope.countyData = res.data;
+        }, err => {
+          console.log("County ERROR: ", err);
+        });
+      }
+      else if ($scope.selectedState != null){ //else just state
+        $http({
+          url: '/county/' + $scope.selectedState,
+          method: 'GET',
+          responseType: 'text'
+        }).then(res => {
+          console.log("DESC in county: ", res.data);
+          $scope.countyData = res.data;
+        }, err => {
+          console.log("County ERROR: ", err);
+        });
+      }
+    }
 });
 
 
@@ -227,25 +306,26 @@ app.controller('censusController', function($scope, $http) {
   }
 });
 
-// app.controller('censusController', function($scope, $http) {
-//   $http({
-//     url: '/census',
-//     method: 'GET'
-//   }).then(res => {
-//     console.log("Census: ", res.data);
-//     $scope.census = res.data;
-//   }, err => {
-//     console.log("Census ERROR: ", err);
-//   });
-//     $scope.submitDecade = function() {
-//   	$http({
-//     url: '/decades/'+$scope.selectedDecade,
-//     method: 'GET'
-//   }).then(res => {
-//     console.log("Top Voted Based In " +$scope.selectedDecade, res.data);
-//     $scope.bestofMovies = res.data;
-//   }, err => {
-//     console.log("Top Voted ERROR: ", err);
-//   });
-//   }
-// });
+// Controller for the Episode Details Page
+app.controller('episodeController', function($scope, $location, $http, ) {
+  var queryParams = $location.search();
+  $http({
+    url: '/episodeEvents?ep_id=' + queryParams.ep_id,
+    method: 'GET'
+  }).then(res => {
+    $scope.episodeID = queryParams.ep_id;
+    $scope.episodeEvents = res.data;
+  }, err => {
+    console.log("episodeController ERROR: ", err);
+  });
+
+  $http({
+    url: '/episodeNarrative?ep_id=' + queryParams.ep_id,
+    method: 'GET'
+  }).then(res => {
+    $scope.episodeNarrative = res.data;
+  }, err => {
+    console.log("episodeController ERROR: ", err);
+  });
+
+});

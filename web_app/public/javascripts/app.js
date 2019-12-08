@@ -1,6 +1,7 @@
 var app = angular.module('angularjsNodejsTutorial', []);
 
 // Controller for the Dashboard Page
+
 app.controller('dashboardController', function($scope, $http) {
   console.log("In app controller");
   $http({
@@ -52,20 +53,73 @@ app.controller('searchController', function($scope, $http) {
 });
 
 // Controller for the County Page
+// app.controller('countyController', function($scope, $http) {
+//   $scope.submitIds = function() {
+//     $http({
+//       url: '/county/' + $scope.countyName,
+//       method: 'GET',
+//       responseType: 'text'
+//     }).then(res => {
+//       //console.log(data)
+//       console.log("DESC in county: ", res.data);
+//       $scope.countyDesc = res.data;
+//     }, err => {
+//       console.log("County ERROR: ", err);
+//     });
+//   }
+// });
+
 app.controller('countyController', function($scope, $http) {
-  $scope.submitIds = function() {
+  console.log('outside in app.js');
+  $http({
+    url: '/countyQuery',
+    method: 'GET'
+  }).then(res => {
+    console.log("STATES: ", res.data);
+    $scope.states = res.data;
+  }, err => {
+    console.log("STATES ERROR: ", err);
+  });
+
+  $scope.selectedStateChanged = function(){
+    console.log("Selected state: ", $scope.selectedState[0]);
     $http({
-      url: '/county/' + $scope.countyName,
-      method: 'GET',
-      responseType: 'text'
+      url: '/countyQuery/' + $scope.selectedState[0],
+      method: 'GET'
     }).then(res => {
-      //console.log(data)
-      console.log("DESC in county: ", res.data);
-      $scope.countyDesc = res.data;
+      console.log("COUNTIES: ", res.data);
+      $scope.counties = res.data;
     }, err => {
-      console.log("County ERROR: ", err);
+      console.log("COUNTIES ERROR: ", err);
     });
   }
+
+    $scope.submitCounty = function() {
+      if ($scope.selectedState != null && $scope.selectedCounty != null){
+        $http({
+          url: '/county/' + $scope.selectedState + '/' + $scope.selectedCounty,
+          method: 'GET',
+          responseType: 'text'
+        }).then(res => {
+          console.log("DESC in county: ", res.data);
+          $scope.countyData = res.data;
+        }, err => {
+          console.log("County ERROR: ", err);
+        });
+      }
+      else if ($scope.selectedState != null){ //else just state
+        $http({
+          url: '/county/' + $scope.selectedState,
+          method: 'GET',
+          responseType: 'text'
+        }).then(res => {
+          console.log("DESC in county: ", res.data);
+          $scope.countyData = res.data;
+        }, err => {
+          console.log("County ERROR: ", err);
+        });
+      }
+    }
 });
 
 

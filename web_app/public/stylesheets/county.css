@@ -1,3 +1,8 @@
+.box {
+    height: auto;
+    width: auto;
+}
+
 .search-container {
   width: 80%;
   margin: 0 auto;

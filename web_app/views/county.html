@@ -47,27 +47,23 @@ County<!DOCTYPE html>
       <button id="submitCountyBtn" class="submit-btn" ng-click="submitIds()">Submit</button>
     </div> -->
     <div class="county-container">
-      <table id = "countyResults">
-        <!-- <thead> -->
-          <tr>
-            <th class="header"><strong>State</strong></th>
-            <th class="header"><strong>County</strong></th>
-            <th class="header"><strong>Begin Date</strong></th>
-            <th class="header"><strong>End Date</strong></th>
-            <th class="header"><strong>More Info</strong></th>
-          </tr>
-        <!-- </thead>
-        <tbody> -->
-          <tr ng-repeat="d in countyData">
-            <td style="text-transform:capitalize">{{d[0]}}</td>
-            <td style="text-transform:capitalize">{{d[1]}}</td>
-            <td>{{d[2]}}</td>
-            <td>{{d[3]}}</td>
-            <!-- <div class="episode_id">{{d[4]}}</div> -->
-            <!-- /episode#?ep_id=136052 -->
-            <td><a href="/episode#?ep_id={{d[4]}}">{{d[4]}}</a></td>
-          </tr>
-        <!-- </tbody> -->
+      <table id="countyResults" style="text-transform:capitalize; width:100%; table-layout: fixed; word-wrap: break-word;">
+        <tr>
+          <th>State</th>
+          <th>County</th>
+          <th>Begin Date</th>
+          <th>End Date</th>
+          <th>More Info</th>
+        </tr>
+        <tr ng-repeat="d in countyData">
+          <td style="text-transform:capitalize">{{d[0]}}</td>
+          <td style="text-transform:capitalize">{{d[1]}}</td>
+          <td>{{d[2]}}</td>
+          <td>{{d[3]}}</td>
+          <!-- <div class="episode_id">{{d[4]}}</div> -->
+          <!-- /episode#?ep_id=136052 -->
+          <td><a href="/episode#?ep_id={{d[4]}}">{{d[4]}}</a></td>
+        </tr>
       </table>
     </div>
   </div>

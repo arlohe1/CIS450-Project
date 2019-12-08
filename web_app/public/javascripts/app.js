@@ -92,7 +92,7 @@ app.controller('dashboardController', function($scope, $http) {
        }
      }
 
-     var map = L.map('mapid').setView([37.8, -96], 4);
+     var map = L.map('mapid').setView([37.8, -96], 3.4);
 
      L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=' + mapboxAccessToken, {
          id: 'mapbox/light-v9'
@@ -278,6 +278,11 @@ app.controller('censusController', function($scope, $http) {
     url: '/censusEvents',
     method: 'GET'
   }).then(res => {
+
+    for (i = 0; i < res.data.length; i++) {
+      res.data[i] = res.data[i].toString().replace("/", " or ");
+    }
+
     $scope.event_types = res.data;
     console.log(res.data);
   }, err => {
@@ -286,7 +291,7 @@ app.controller('censusController', function($scope, $http) {
 
   $scope.showEvents = function() {
     $http({
-        url: '/censusEvents/' + $scope.selectedEventType,
+        url: '/censusEvents/' + $scope.selectedEventType.toString().replace(/\//g, '%20'),
         method: 'GET'
     }).then(res => {
       $scope.events = res.data;

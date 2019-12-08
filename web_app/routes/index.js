@@ -130,8 +130,8 @@ router.get('/dashboardSummary/topEvents', function(req, res) {
     }
   })
 });
-    
-    
+
+
 router.get('/dashboardSummary/topRegion', function(req, res) {
 
   var query = `
@@ -173,13 +173,13 @@ router.get('/dashboardSummary/map', function(req, res) {
     }
   })
 });
-    
+
 
 /* ----- Search ----- */
 router.get('/filters', function(req, res) {
     console.log("entered filters router");
     var query = `
-    SELECT DISTINCT event_type 
+    SELECT DISTINCT event_type
     FROM disaster d
     ORDER BY event_type
     `;
@@ -212,7 +212,7 @@ router.get('/filters/:filterData/:month/:sortCategory', function(req, res) {
     SELECT episode_id, event_type, state, cz_name, to_char(cast(begin_date as date), 'Mon DD, YYYY'), 
       injuries_direct+injuries_indirect AS total_injuries,
       deaths_direct+deaths_indirect AS total_deaths, 
-      TO_CHAR(damage_property+damage_crops, '999,999,999,999') AS total_damages 
+      TO_CHAR(damage_property+damage_crops, '999,999,999,999') AS total_damages
       FROM disaster d
     `;
   } else {
@@ -416,8 +416,8 @@ router.get('/censusEvents', function(req, res) {
 
 
 router.get('/censusEvents/:selectedEventType', function(req, res) {
-  var inputType = req.params.selectedEventType;
-  console.log('this is input', inputType);
+  var inputType = req.params.selectedEventType.toString().replace(" or ", "/");
+
   var query = `
     SELECT
       ROUND(AVG(percent_white)),

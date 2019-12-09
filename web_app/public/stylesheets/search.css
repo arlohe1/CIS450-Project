@@ -17,7 +17,7 @@
   display: flex;
   flex-flow: row wrap;
   align-items: left;
-  justify-content: space-evenly;
+  justify-content: space-between;
 }
 
 .filter-container .submit-btn {

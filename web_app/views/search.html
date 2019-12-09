@@ -33,20 +33,21 @@
   <div class="h2">Search Disaster Data</div>
     <div class="search-container">
       <div class="jumbotron">
-
         <div class="filter-container">
-          <div class="h4">Filter</div>
           <div class="dropdown-container">
-            <select style="text-transform:capitalize;" class="dropdown" id="disasterDropdown" ng-model="selectedEventType" ng-options="t for t in eventTypes"></select>
+            <class="h4">Filter By</class>
+            <select style="text-transform:capitalize;" class="dropdown" id="disasterDropdown" ng-model="selectedEventType" ng-options="t for t in eventTypes">
+                <option value="" selected="selected">Event Type</option>
+              </select>
+            <select class="dropdown" id="countyDropdown" ng-model="selectedMonth" ng-options="m for m in months">
+                <option value="" selected="selected">Month</option>
+            </select>
+            <class="h4">Sort By</class>
+            <select class="dropdown" id="sortDropdown" ng-model="selectedCategory" ng-options="c for c in sortCategories">
+                <option value="" selected="selected">Default</option>
+            </select>
+            <button class="submit-btn" id="decadesSubmitBtn" ng-click="submitEventType()">Submit</button>
           </div>
-          <div class="dropdown-container">
-            <select class="dropdown" id="countyDropdown" ng-model="selectedMonth" ng-options="m for m in months"></select>
-          </div>
-          <div class="h4">Sort</div>
-          <div class="dropdown-container">
-            <select class="dropdown" id="sortDropdown" ng-model="selectedCategory" ng-options="c for c in sortCategories"></select>
-          </div>
-          <button class="submit-btn" id="decadesSubmitBtn" ng-click="submitEventType()">Submit</button>
     </div>
   </div>
 </div>

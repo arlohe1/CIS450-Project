@@ -339,6 +339,37 @@ app.controller('eventController', function($scope, $location, $http, ) {
   });
 
   $http({
+    url: '/eventState?event_id=' + queryParams.event_id,
+    method: 'GET'
+  }).then(res => {
+    let eventState = res.data[0][0];
+    if(["north dakota", "south dakota", "minnesota", "michigan", "ohio", "illinois", "nebraska", "missouri", "indiana", "iowa"].includes(eventState)) {
+      // Midwest
+      $scope.eventRegion = "midwest";
+    } else if(["kentucky", "georgia", "louisiana", "florida", "alabama", "mississippi", "arkansas", "south carolina", "north carolina", "west virginia"].includes(eventState)) {
+      // South
+      $scope.eventRegion = "south";
+    } else if(["colorado", "wyoming", "montana", "idaho", "utah", "nevada"].includes(eventState)) {
+      // Mountain
+      $scope.eventRegion = "mountain";
+    } else if(["california", "oregon", "washington"].includes(eventState)) {
+      // Pacific
+      $scope.eventRegion = "pacific";
+    } else if(["maine", "new hampshire", "vermont", "massachusetts", "rhode island", "connecticut"].includes(eventState)) {
+      // New England
+      $scope.eventRegion = "new-england";
+    } else if(["pennsylvania", "new jersey", "new york", "delaware", "maryland", "virginia"].includes(eventState)) {
+      // Northeast
+      $scope.eventRegion = "northeast";
+    } else if(["arizona", "new mexico", "oklahoma", "texas"].includes(eventState)) {
+      // Southwest
+      $scope.eventRegion = "southwest";
+    }
+  }, err => {
+    console.log("eventController ERROR: ", err);
+  });
+
+  $http({
     url: '/eventNarrative?event_id=' + queryParams.event_id,
     method: 'GET'
   }).then(res => {

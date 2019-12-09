@@ -512,6 +512,22 @@ router.get('/eventDetails', function(req, res) {
 });
 
 
+router.get('/eventState', function(req, res) {
+  var event_id = req.query.event_id;
+  var query = `
+    SELECT D.state
+    FROM disaster D
+    WHERE D.event_id=${event_id}`;
+
+  connection.execute(query, function(err, rows, fields) {
+    if (err) console.log(err);
+    else {
+      res.json(rows.rows);
+    }
+  });
+});
+
+
 router.get('/eventNarrative', function(req, res) {
   var event_id = req.query.event_id;
   var query = `

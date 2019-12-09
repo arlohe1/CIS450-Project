@@ -29,42 +29,49 @@
       </div>
     </nav>
 
-  </br>
+  <br>
   <div class="h2">Event Details</div>
-</div>
-  <div class="events-container">
-    <div class="jumbotron">
-      <p>Displaying all information for the event: {{eventID}}</p>
-      <h6>Event Narrative</h6>
-      <p>{{eventNarrative[0][0]}}</p>
-      <h6>Events</h6>
-      <table id="eventInformation" style="text-transform:capitalize; width:100%; table-layout: fixed; word-wrap: break-word;">
-        <tr>
-          <th>Event Type</th>
-          <th>County</th>
-          <th>State</th>
-          <th>Start Date</th>
-          <th>End Date</th>
-          <th>Total Damages</th>
-          <th>Total Injuries</th>
-          <th>Total Deaths</th>
-          <th>Source</th>
-        </tr>
-        <tr ng-repeat="event in events">
-          <td>{{event[2]}}</td>
-          <td>{{event[8]}}</td>
-          <td>{{event[5]}}</td>
-          <td>{{event[3]}}</td>
-          <td>{{event[4]}}</td>
-          <td>{{event[16]}}</td>
-          <td>{{event[12]+event[13]}}</td>
-          <td>{{event[14]+event[15]}}</td>
-          <td>{{event[9]}}</td>
-        </tr>
-      </table>
+    <div class="events-container">
+      <div class="jumbotron">
+        <p>Displaying all information for the event: {{eventID}}</p>
+        <h6>Event Narrative</h6>
+        <p>{{eventNarrative[0][0]}}</p>
+        <h6>Events</h6>
+        <table id="eventInformation" style="text-transform:capitalize; width:100%; table-layout: fixed; word-wrap: break-word;">
+          <tr>
+            <th>Event Type</th>
+            <th>County</th>
+            <th>State</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Total Damages</th>
+            <th>Total Injuries</th>
+            <th>Total Deaths</th>
+            <th>Source</th>
+          </tr>
+          <tr ng-repeat="event in events">
+            <td>{{event[2]}}</td>
+            <td>{{event[8]}}</td>
+            <td>{{event[5]}}</td>
+            <td>{{event[3]}}</td>
+            <td>{{event[4]}}</td>
+            <td>{{event[16]}}</td>
+            <td>{{event[12]+event[13]}}</td>
+            <td>{{event[14]+event[15]}}</td>
+            <td>{{event[9]}}</td>
+          </tr>
+        </table>
+      </div>
+      <div style="margin-left:25%">
+        <a class="twitter-timeline" data-width="500" data-height="500" href="https://twitter.com/amit_lohe/lists/nws-{{eventRegion}}"></a>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"/>
+      </div>
     </div>
-  </div>
+
+
 </div>
+
+
 
     <!-- Include these before the end of body tag in every HTML file -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>

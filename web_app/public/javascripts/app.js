@@ -310,7 +310,12 @@ app.controller('searchController', function($scope, $http) {
   }).then(res => {
     console.log("Filters: ", res.data);
     res.data.unshift(["all events"])
-    $scope.eventTypes = res.data;
+
+    formattedEvents = [];
+    for (i = 0; i < res.data.length; i++) {
+      formattedEvents = formattedEvents.concat(res.data[i].toString().replace("/", " or "));
+    }
+    $scope.eventTypes = formattedEvents;
     console.log("all added, ", $scope.eventTypes);
   }, err => {
     console.log("Filters ERROR: ", err);

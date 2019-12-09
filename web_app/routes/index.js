@@ -274,7 +274,7 @@ router.get('/filters', function(req, res) {
 router.get('/filters/:filterData/:month/:sortCategory', function(req, res) {
   console.log("in index.js search");
 
-  var filterData = req.params.filterData;
+  var filterData = req.params.filterData.toString().replace(" or ", "/");
   var month = req.params.month;
   var sortCategory = req.params.sortCategory;
 

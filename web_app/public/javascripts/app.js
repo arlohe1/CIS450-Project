@@ -184,6 +184,121 @@ app.controller('dashboardController', function($scope, $http) {
      console.log("showMap ERROR", err);
    })
  };
+
+ // bar chart of number of events by income bucket
+ var showNumEventsByIncome = function() {
+    $http({
+      url: '/dashboardSummary/numEvents',
+      method: 'GET'
+    }).then(res => {
+
+      flatIncomeBuckets = [];
+      flatNumEvents = [];
+      for (var i = 0; i < res.data.length; i++) {
+        flatIncomeBuckets = flatIncomeBuckets.concat(res.data[i][0] + " to " + res.data[i][1]);
+        flatNumEvents = flatNumEvents.concat(res.data[i][2]);
+      }
+      new Chart(document.getElementById("bar-chart-1"), {
+          type: 'bar',
+          data: {
+              labels: flatIncomeBuckets,
+              datasets: [{
+                  label: "Number of Events",
+                  backgroundColor: "#1E5372",
+                  barPercentage: 0.5,
+                  barThickness: 6,
+                  maxBarThickness: 8,
+                  minBarLength: 2,
+                  data: flatNumEvents
+              }]
+          },
+          options: {
+              title: {
+                display: true,
+                text: "Number of Events Affecting Different Income Buckets"
+              },
+              legend: {display: false},
+              layout: {
+                 padding: {
+                     left: 20,
+                     right: 20,
+                     top: 10,
+                     bottom: 20
+                 }
+             }
+          }
+      });
+
+    }, err => {
+      console.log("numEvents ERROR ", err)
+    })
+  };
+showNumEventsByIncome();
+
+
+// bar chart of avg damage by income bucket
+var showAvgDamageByIncome = function() {
+   $http({
+     url: '/dashboardSummary/avgDamage',
+     method: 'GET'
+   }).then(res => {
+
+     flatIncomeBuckets2 = [];
+     flatDamage = [];
+     for (var i = 0; i < res.data.length; i++) {
+       flatIncomeBuckets2 = flatIncomeBuckets2.concat(res.data[i][0] + " to " + res.data[i][1]);
+       flatDamage = flatDamage.concat(res.data[i][2]);
+     }
+     new Chart(document.getElementById("bar-chart-2"), {
+         type: 'bar',
+         data: {
+             labels: flatIncomeBuckets2,
+             datasets: [{
+                 label: "Avg Property Damage",
+                 backgroundColor: "#1E5372",
+                 barPercentage: 0.5,
+                 barThickness: 6,
+                 maxBarThickness: 8,
+                 minBarLength: 2,
+                 data: flatDamage
+             }]
+         },
+         options: {
+             title: {
+               display: true,
+               text: "Average Property Damage Faced By Different Income Buckets"
+             },
+             legend: {display: false},
+             layout: {
+                padding: {
+                    left: 20,
+                    right: 20,
+                    top: 10,
+                    bottom: 20
+                }
+            }
+         }
+     });
+
+   }, err => {
+     console.log("avgDamage ERROR ", err)
+   })
+ };
+showAvgDamageByIncome();
+
+var showRandomEvent = function() {
+   $http({
+     url: '/dashboardSummary/randomEvents',
+     method: 'GET'
+   }).then(res => {
+     $scope.randomEvent = res.data;
+     console.log(res.data);
+   }, err => {
+     console.log("randomEvent ERROR ", err)
+   })
+ };
+showRandomEvent();
+
 });
 
 

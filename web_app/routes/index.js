@@ -179,6 +179,79 @@ router.get('/dashboardSummary/map', function(req, res) {
 });
 
 
+router.get('/dashboardSummary/numEvents', function(req, res) {
+
+  var query = `
+  SELECT
+      FLOOR(C.income_per_capita/10000.0) * 10000 as min_bucket,
+      FLOOR(C.income_per_capita/10000.0) * 10000 + 10000 as max_bucket,
+      COUNT(event_id) AS cnt
+  FROM Disaster D
+  INNER JOIN County C
+  ON D.state_cleaned = C.state_cleaned AND D.cz_name_cleaned = C.name_cleaned
+  GROUP BY
+      FLOOR(C.income_per_capita/10000.0),
+      FLOOR(C.income_per_capita/10000.0) * 10000 + 10000
+  ORDER BY min_bucket`;
+
+  console.log(query);
+
+  connection.execute(query, function (err, rows, fields) {
+    if (err) console.log("Bar Chart 1", err);
+    else {
+      console.log(rows);
+      res.json(rows.rows);
+    }
+  })
+});
+
+
+router.get('/dashboardSummary/avgDamage', function(req, res) {
+
+  var query = `
+  SELECT
+      FLOOR(C.income_per_capita/10000.0) * 10000 as min_bucket,
+      FLOOR(C.income_per_capita/10000.0) * 10000 + 10000 as max_bucket,
+      AVG(damage_property) AS damage
+  FROM Disaster D
+  INNER JOIN County C
+  ON D.state_cleaned = C.state_cleaned AND D.cz_name_cleaned = C.name_cleaned
+  GROUP BY
+      FLOOR(C.income_per_capita/10000.0),
+      FLOOR(C.income_per_capita/10000.0) * 10000 + 10000
+  ORDER BY min_bucket`;
+
+  console.log(query);
+
+  connection.execute(query, function (err, rows, fields) {
+    if (err) console.log("Bar Chart 2", err);
+    else {
+      console.log(rows);
+      res.json(rows.rows);
+    }
+  })
+});
+
+
+router.get('/dashboardSummary/randomEvent', function(req, res) {
+
+  var query = `
+  SELECT event_narrative
+  FROM eventnarrative`;
+
+  console.log(query);
+
+  connection.execute(query, function (err, rows, fields) {
+    if (err) console.log("Bar Chart 2", err);
+    else {
+      console.log(rows);
+      res.json(rows.rows);
+    }
+  })
+});
+
+
+
 /* ----- Search ----- */
 router.get('/filters', function(req, res) {
     console.log("entered filters router");
@@ -213,17 +286,17 @@ router.get('/filters/:filterData/:month/:sortCategory', function(req, res) {
 
   if (filterData == "all events") {
     query = `
-    SELECT episode_id, event_type, state, cz_name, to_char(cast(begin_date as date), 'Mon DD, YYYY'), 
+    SELECT episode_id, event_type, state, cz_name, to_char(cast(begin_date as date), 'Mon DD, YYYY'),
       injuries_direct+injuries_indirect AS total_injuries,
-      deaths_direct+deaths_indirect AS total_deaths, 
+      deaths_direct+deaths_indirect AS total_deaths,
       TO_CHAR(damage_property+damage_crops, '999,999,999,999') AS total_damages, event_id
       FROM disaster d
     `;
   } else {
     query = `
-    SELECT episode_id, event_type, state, cz_name, to_char(cast(begin_date as date),'Mon DD, YYYY'), 
+    SELECT episode_id, event_type, state, cz_name, to_char(cast(begin_date as date),'Mon DD, YYYY'),
       injuries_direct+injuries_indirect AS total_injuries,
-      deaths_direct+deaths_indirect AS total_deaths, 
+      deaths_direct+deaths_indirect AS total_deaths,
       TO_CHAR(damage_property+damage_crops, '999,999,999,999') AS total_damages, event_id
       FROM disaster d
       WHERE event_type='${filterData}'

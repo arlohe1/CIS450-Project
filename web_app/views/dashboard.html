@@ -45,14 +45,14 @@
       <div class="h2">Summary Dashboard</div>
         <div class="summary">
           <div class="item-1">
+            <canvas id="pie-chart" width="100%" height="60%"></canvas>
+          </div>
+          <div class="item-2">
             Top Event Types By Damages
             <div class="text" ng-repeat="e in topEvents" style="text-transform:capitalize">
               {{e[0]}}
               (${{e[1]}} mil)
             </div>
-          </div>
-          <div class="item-2">
-            <canvas id="pie-chart" width="100%" height="60%"></canvas>
           </div>
           <div class="item-3">
             County with Highest Number of Disasters
@@ -66,14 +66,10 @@
             <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
         </div>
         <div class="item-6">
-          <canvas id="bar-chart-1" width="95%" height="80%"></canvas>
+          <canvas id="bar-chart-2" width="95%" height="80%"></canvas>
         </div>
         <div class="item-7">
-          <canvas id="bar-chart-2" width="100%" height="70%"></canvas>
-        </div>
-        <div class="item-8">
-          County with Highest Number of Disasters
-          <div class="text">{{topCounty}}, {{topState}}</div>
+          <canvas id="bar-chart-1" width="100%" height="70%"></canvas>
         </div>
       </div>
 

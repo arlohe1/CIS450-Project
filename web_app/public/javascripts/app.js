@@ -1,7 +1,8 @@
 var app = angular.module('angularjsNodejsTutorial', []);
 var mapboxAccessToken = 'pk.eyJ1IjoicmFjaGVsbHNtYWUiLCJhIjoiY2szdnJtdTMwMDFndzNybWphM3ZpMTN4MiJ9.HMczds7TOlaf86UaM4cp6g';
 
-// Controller for the Dashboard Page
+
+/* ----- Controller for the Dashboard Page ----- */
 app.controller('dashboardController', function($scope, $http) {
   console.log("In app controller");
 
@@ -50,7 +51,6 @@ app.controller('dashboardController', function($scope, $http) {
        console.log("topEvents ERROR ", err)
      })
    };
- showTopEvents();
 
  // Region with highest disaster occurences
  var showTopRegion = function () {
@@ -66,7 +66,6 @@ app.controller('dashboardController', function($scope, $http) {
      console.log("topRegion ERROR ", err)
    })
  };
- showTopRegion();
 
  // Map with number of Disasters
  $scope.showMap = function () {
@@ -205,6 +204,7 @@ app.controller('dashboardController', function($scope, $http) {
               datasets: [{
                   label: "Number of Events",
                   backgroundColor: "#1E5372",
+                  hoverBackgroundColor: "#c561ae",
                   barPercentage: 0.5,
                   barThickness: 6,
                   maxBarThickness: 8,
@@ -233,7 +233,6 @@ app.controller('dashboardController', function($scope, $http) {
       console.log("numEvents ERROR ", err)
     })
   };
-showNumEventsByIncome();
 
 
 // bar chart of avg damage by income bucket
@@ -256,6 +255,7 @@ var showAvgDamageByIncome = function() {
              datasets: [{
                  label: "Avg Property Damage",
                  backgroundColor: "#1E5372",
+                 hoverBackgroundColor: "#c561ae",
                  barPercentage: 0.5,
                  barThickness: 6,
                  maxBarThickness: 8,
@@ -284,25 +284,16 @@ var showAvgDamageByIncome = function() {
      console.log("avgDamage ERROR ", err)
    })
  };
-showAvgDamageByIncome();
 
-var showRandomEvent = function() {
-   $http({
-     url: '/dashboardSummary/randomEvents',
-     method: 'GET'
-   }).then(res => {
-     $scope.randomEvent = res.data;
-     console.log(res.data);
-   }, err => {
-     console.log("randomEvent ERROR ", err)
-   })
- };
-showRandomEvent();
+showTopEvents();
+showTopRegion();
+showNumEventsByIncome();
+showAvgDamageByIncome();
 
 });
 
 
-// Controller for the Search Page
+/* ----- Controller for the Search Page ----- */
 app.controller('searchController', function($scope, $http) {
   $http({
     url: '/filters',
@@ -399,7 +390,7 @@ app.controller('countyController', function($scope, $http) {
 });
 
 
-// Controller for the Census Page
+/* ----- Controller for the Census Page ----- */
 app.controller('censusController', function($scope, $http) {
    $http({
     url: '/censusEvents',
@@ -428,7 +419,7 @@ app.controller('censusController', function($scope, $http) {
   }
 });
 
-// Controller for the Episode Details Page
+/* ----- Controller for the Episode Details Page ----- */
 app.controller('episodeController', function($scope, $location, $http, ) {
   var queryParams = $location.search();
   $http({
@@ -452,7 +443,7 @@ app.controller('episodeController', function($scope, $location, $http, ) {
 });
 
 
-// Controller for the Event Details Page
+/* ----- Controller for the Event Details Page ----- */
 app.controller('eventController', function($scope, $location, $http, ) {
   var queryParams = $location.search();
   $http({

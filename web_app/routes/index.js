@@ -147,8 +147,7 @@ router.get('/dashboardSummary/topRegion', function(req, res) {
     ORDER BY count DESC)
   SELECT state, county, count
   FROM T
-  WHERE count = (SELECT MAX(count)
-  FROM T)`;
+  WHERE ROWNUM = 1`;
 
   connection.execute(query, function (err, rows, fields) {
     if (err) console.log("topRegion", err);
@@ -212,7 +211,7 @@ router.get('/dashboardSummary/avgDamage', function(req, res) {
   SELECT
       FLOOR(C.income_per_capita/10000.0) * 10000 as min_bucket,
       FLOOR(C.income_per_capita/10000.0) * 10000 + 10000 as max_bucket,
-      AVG(damage_property) AS damage
+      ROUND(AVG(damage_property)) AS damage
   FROM Disaster D
   INNER JOIN County C
   ON D.state_cleaned = C.state_cleaned AND D.cz_name_cleaned = C.name_cleaned
@@ -231,25 +230,6 @@ router.get('/dashboardSummary/avgDamage', function(req, res) {
     }
   })
 });
-
-
-router.get('/dashboardSummary/randomEvent', function(req, res) {
-
-  var query = `
-  SELECT event_narrative
-  FROM eventnarrative`;
-
-  console.log(query);
-
-  connection.execute(query, function (err, rows, fields) {
-    if (err) console.log("Bar Chart 2", err);
-    else {
-      console.log(rows);
-      res.json(rows.rows);
-    }
-  })
-});
-
 
 
 /* ----- Search ----- */

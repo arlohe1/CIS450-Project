@@ -2,7 +2,6 @@ var app = angular.module('angularjsNodejsTutorial', []);
 var mapboxAccessToken = 'pk.eyJ1IjoicmFjaGVsbHNtYWUiLCJhIjoiY2szdnJtdTMwMDFndzNybWphM3ZpMTN4MiJ9.HMczds7TOlaf86UaM4cp6g';
 
 // Controller for the Dashboard Page
-// Controller for the Dashboard Page
 app.controller('dashboardController', function($scope, $http) {
   console.log("In app controller");
 
@@ -92,70 +91,78 @@ app.controller('dashboardController', function($scope, $http) {
        }
      }
 
-     var map = L.map('mapid').setView([37.8, -96], 3.4);
+     // create map
+     var map = L.map('mapid').setView([37.8, -96], 3.45);
 
      L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=' + mapboxAccessToken, {
          id: 'mapbox/light-v9'
      }).addTo(map);
 
-     function getColor(d) {
-       return d > 2000 ? '#800026' :
-              d > 1500  ? '#BD0026' :
-              d > 1000  ? '#E31A1C' :
-              d > 500  ? '#FC4E2A' :
-              d > 250   ? '#FD8D3C' :
-              d > 100   ? '#FEB24C' :
-              d > 50   ? '#FED976' :
-                         '#FFEDA0';
+     function setColor(a) {
+       if (a > 2000) {
+         return '#800026';
+       }
+       else if (a > 1500) {
+         return '#BD0026';
+       }
+       else if (a > 1000) {
+         return '#E31A1C';
+       }
+       else if (a > 500) {
+         return '#FC4E2A';
+       }
+       else if (a > 250) {
+         return  '#FEB24C';
+       }
+       else if (a > 100) {
+         return '#FEB24C';
+       }
+       else {
+         return '#FFEDA0';
+       }
      }
 
      function style(feature) {
        return {
-           fillColor: getColor(feature.properties.density),
+           fillColor: setColor(feature.properties.density),
            weight: 2,
            opacity: 1,
            color: 'white',
            dashArray: '3',
-           fillOpacity: 0.7
+           fillOpacity: 0.75
        };
    }
 
-   function highlightFeature(e) {
-       var layer = e.target;
-
-       layer.setStyle({
-           weight: 5,
-           color: '#666',
-           dashArray: '',
-           fillOpacity: 0.7
-       });
-
-       if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-           layer.bringToFront();
-       }
-       info.update(layer.feature.properties);
-   }
-
-   function resetHighlight(e) {
-     geojson.resetStyle(e.target);
-     info.update();
-   }
-
-   function zoomToFeature(e) {
-     map.fitBounds(e.target.getBounds());
-   }
-
-   function onEachFeature(feature, layer) {
+   function onEachState(state, layer) {
      layer.on({
-       mouseover: highlightFeature,
-       mouseout: resetHighlight,
-       click: zoomToFeature
+       mouseover: function (s) {
+          var layer = s.target;
+          layer.setStyle({
+              weight: 5,
+              color: '#666',
+              dashArray: '',
+              fillOpacity: 0.7
+          });
+          if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+              layer.bringToFront();
+          }
+          info.update(layer.feature.properties);
+      },
+
+       mouseout: function (s) {
+            geojson.resetStyle(s.target);
+            info.update();
+      },
+
+       click: function (s) {
+         map.fitBounds(s.target.getBounds());
+       }
      });
    }
 
    geojson = L.geoJson(statesData, {
        style: style,
-       onEachFeature: onEachFeature
+       onEachFeature: onEachState
    }).addTo(map);
 
    var info = L.control();
@@ -165,20 +172,20 @@ app.controller('dashboardController', function($scope, $http) {
        return this._div;
    };
 
-   info.update = function (props) {
-       this._div.innerHTML = '<h4>Number of Disasters</h4>' +  (props ?
-           '<b>' + props.name + '</b><br />' + props.density + ' events'
-           : 'Hover over a state');
+   info.update = function (state) {
+       this._div.innerHTML = '<h6>Number of Disasters By State</h6>' +
+       (state ? '<b>' + state.name + '</b><br />' + state.density + ' events'
+           : 'Hover over one for more info!');
    };
 
    info.addTo(map);
-
 
    }, err => {
      console.log("showMap ERROR", err);
    })
  };
 });
+
 
 // Controller for the Search Page
 app.controller('searchController', function($scope, $http) {
@@ -379,4 +386,3 @@ app.controller('eventController', function($scope, $location, $http, ) {
   });
 
 });
-

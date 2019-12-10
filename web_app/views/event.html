@@ -33,10 +33,9 @@
   <div class="h2">Event Details</div>
     <div class="events-container">
       <div class="jumbotron">
-        <p>Displaying all information for the event: {{eventID}}</p>
-        <h6>Event Narrative</h6>
+        <h4>Event Narrative</h4>
         <p>{{eventNarrative[0][0]}}</p>
-        <h6>Events</h6>
+        <h4>Event Information</h4>
         <table id="eventInformation" style="text-transform:capitalize; width:100%; table-layout: fixed; word-wrap: break-word;">
           <tr>
             <th>Event Type</th>
@@ -55,7 +54,7 @@
             <td>{{event[5]}}</td>
             <td>{{event[3]}}</td>
             <td>{{event[4]}}</td>
-            <td>{{event[16]}}</td>
+            <td>${{event[16]}}</td>
             <td>{{event[12]+event[13]}}</td>
             <td>{{event[14]+event[15]}}</td>
             <td>{{event[9]}}</td>
@@ -63,7 +62,7 @@
         </table>
       </div>
       <div class="jumbotron" ng-hide="county == null">
-        <h6>Census Data</h6>
+        <h4>Census Data</h4>
         <p>Displaying all census data for {{county}} County, {{state}}.</p>
         <table id="censusData" style="text-transform:capitalize; width:100%; table-layout: fixed; word-wrap: break-word;">
           <tr>
@@ -78,15 +77,15 @@
             <th>Per Capita Income</th>
           </tr>
           <tr ng-repeat="county in counties">
-            <td>{{county[4]}}</td>
-            <td>{{county[8]}}</td>
-            <td>{{county[10]}}</td>
-            <td>{{county[9]}}</td>
-            <td>{{county[12]}}</td>
-            <td>{{county[11]}}</td>
-            <td>{{county[5]}}</td>
-            <td>{{county[7]}}</td>
-            <td>{{county[6]}}</td>
+            <td>{{county[2]}}</td>
+            <td>{{county[3]}}%</td>
+            <td>{{county[4]}}%</td>
+            <td>{{county[5]}}%</td>
+            <td>{{county[6]}}%</td>
+            <td>{{county[7]}}%</td>
+            <td>${{county[8]}}</td>
+            <td>{{county[9]}}%</td>
+            <td>${{county[10]}}</td>
           </tr>
         </table>
       </div>

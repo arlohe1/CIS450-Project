@@ -589,6 +589,8 @@ router.get('/countyDetails', function(req, res) {
   var event_id = req.query.event_id;
   var query = `
     SELECT
+      state,
+      name,
       TO_CHAR(total_pop, '999,999,999,999') AS population,
       percent_white,
       percent_black,
@@ -597,7 +599,7 @@ router.get('/countyDetails', function(req, res) {
       percent_native,
       TO_CHAR(median_income, '999,999,999,999') AS median_income,
       poverty,
-      income_per_capita
+      TO_CHAR(income_per_capita, '999,999,999,999') AS income_per_capita
     FROM County C
     INNER JOIN (SELECT event_id, cz_name_cleaned, state_cleaned FROM Disaster D WHERE event_id = ${event_id}) D
     ON C.name_cleaned = D.cz_name_cleaned AND C.state_cleaned = D.state_cleaned`;

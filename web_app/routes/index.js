@@ -597,6 +597,30 @@ router.get('/eventNarrative', function(req, res) {
 });
 
 
+router.get('/countyDetails', function(req, res) {
+  var event_id = req.query.event_id;
+  var query = `
+    SELECT C.*
+    FROM County C
+    WHERE C.name_cleaned=(
+      SELECT D.cz_name_cleaned
+      FROM Disaster D
+      WHERE D.event_id=${event_id}
+    ) AND C.state_cleaned=(
+      SELECT D.state_cleaned
+      FROM Disaster D
+      WHERE D.event_id=${event_id}
+    )`;
+
+  connection.execute(query, function(err, rows, fields) {
+    if (err) console.log(err);
+    else {
+      console.log(rows);
+      res.json(rows.rows);
+    }
+  });
+});
+
 /* General Template for GET requests:
 
 router.get('/routeName/:customParameter', function(req, res) {

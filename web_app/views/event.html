@@ -62,6 +62,34 @@
           </tr>
         </table>
       </div>
+      <div class="jumbotron" ng-hide="county == null">
+        <h6>Census Data</h6>
+        <p>Displaying all census data for {{county}} County, {{state}}.</p>
+        <table id="censusData" style="text-transform:capitalize; width:100%; table-layout: fixed; word-wrap: break-word;">
+          <tr>
+            <th>Population</th>
+            <th>Percent White</th>
+            <th>Percent Black</th>
+            <th>Percent Hispanic</th>
+            <th>Percent Asian</th>
+            <th>Percent Native</th>
+            <th>Median Income</th>
+            <th>Poverty Rate</th>
+            <th>Per Capita Income</th>
+          </tr>
+          <tr ng-repeat="county in counties">
+            <td>{{county[4]}}</td>
+            <td>{{county[8]}}</td>
+            <td>{{county[10]}}</td>
+            <td>{{county[9]}}</td>
+            <td>{{county[12]}}</td>
+            <td>{{county[11]}}</td>
+            <td>{{county[5]}}</td>
+            <td>{{county[7]}}</td>
+            <td>{{county[6]}}</td>
+          </tr>
+        </table>
+      </div>
       <div style="text-align: center; margin-bottom: 10%; justify-content: center;">
         <a class="twitter-timeline" data-width="500" data-height="500" href="https://twitter.com/amit_lohe/lists/nws-{{eventRegion}}"></a>
         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"/>

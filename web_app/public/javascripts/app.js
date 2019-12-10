@@ -496,4 +496,20 @@ app.controller('eventController', function($scope, $location, $http, ) {
     console.log("eventController ERROR: ", err);
   });
 
+  $http({
+    url: '/countyDetails?event_id=' + queryParams.event_id,
+    method: 'GET'
+  }).then(res => {
+    if(res.data.length >= 1) {
+      $scope.state = res.data[0][0];
+      $scope.county = res.data[0][3].split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)) .join(' ');
+    }
+    $scope.counties = res.data;
+  }, err => {
+    console.log("eventController ERROR: ", err);
+  });
+
+
+
+
 });
